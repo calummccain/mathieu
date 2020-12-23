@@ -1,0 +1,294 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\begin{document}
+
+Differential Equation:
+\begin{equation}
+    \frac{d^2y}{dx^2} + (a - 2q\cos(x))y = 0
+\end{equation}
+
+For all $q$ there are special values $a_n(q)$ and $b_n(q)$ such that the solutions are periodic with period $\pi$ or $2\pi$.
+
+If $q=0$ this equation then reduces to $y'' + ay = 0$ which has solutions $\cos(\sqrt{a}x)$ and $\sin(\sqrt{a}x)$. These solutions have period $\pi$ or $2\pi$ if $a = n^2$. In this case we say $a(0) = a_n(0) = n^2 = b_n(0)=b(0)$. 
+
+In general $a_n(q) \neq b_n(q)$.
+
+We also have:
+
+\begin{equation}
+    a_0(q) < b_1(q) < a_1(q) < b_2(q) < \dots
+\end{equation}
+
+When $q \neq 0$ we denote the periodic solutions to Mathieu's Equation
+\begin{center}
+    $ce_n(x, q)$, $se_n(x, q)$   
+\end{center}
+
+We may expand these as fourier series:
+
+\begin{equation}
+    ce_{2r}(x, q) = \sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cos(2sx)}
+\end{equation}
+
+\begin{equation}
+    ce_{2r+1}(x, q) = \sum_{s=0}^{\infty}{A_{2s+1}^{2r+1}(q)\cos((2s+1)x)}
+\end{equation}
+
+\begin{equation}
+    se_{2r}(x, q) = \sum_{s=0}^{\infty}{B_{2s}^{2r}(q)\sin(2sx)}
+\end{equation}
+
+\begin{equation}
+    se_{2r+1}(x, q) = \sum_{s=0}^{\infty}{B_{2s+1}^{2r+1}(q)\sin((2s+1)x)}
+\end{equation}
+
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    Function & Period & Symmetry \\ \hline
+    $ce_{2r}$ & $\pi$ & even \\ \hline
+    $ce_{2r+1}$ & $2\pi$ & even \\ \hline
+    $se_{2r}$ & $\pi$ & odd \\ \hline
+    $se_{2r+!}$ & $2\pi$ & odd \\ \hline
+    \end{tabular}
+\end{center}
+
+Orthogonality
+
+As the Mathieu equation is of Sturm-Liouvill form, for fixed q the solutions $ce_n$ and $se_n$ must be orthogonal over $[0, 2\pi]$:
+
+\begin{equation}
+    \int_0^{2\pi}ce_m(x, q)ce_n(x, q)dx = \pi \delta_{mn}
+\end{equation}
+
+\begin{equation}
+    \int_0^{2\pi}se_m(x, q)se_n(x, q)dx = \pi \delta_{mn}
+\end{equation}
+
+\begin{equation}
+    \int_0^{2\pi}ce_m(x, q)se_n(x, q)dx = 0
+\end{equation}
+
+\begin{proof}
+    Suppose we have two solutions to Mathieu's equation $y_1(x, q)$ and $y_2(x, q)$ with corresopnding eigenvalues $\lambda_1$, $\lambda_2$ where $\lambda_1 \neq \lambda_2$, then we have:
+    \begin{equation}
+        \frac{d^2 y_1}{dx^2} + (\lambda_1 - 2 q \cos(x)) y_1 = 0
+    \end{equation}
+
+    \begin{equation}
+        \frac{d^2 y_2}{dx^2} + (\lambda_2 - 2 q \cos(x)) y_2 = 0
+    \end{equation}
+
+    Multiply the first by $y_2$ and the second by $y_1$ and then subratct:
+
+    \begin{equation}
+        y_2 \frac{d^2 y_1}{dx^2} - y_1 \frac{d^2 y_2}{dx^2} = (\lambda_1 - \lambda_2) y_1 y_2
+    \end{equation}
+
+    Integrate from $0$ to $2\pi$:
+
+    \begin{equation}
+        \int_{0}^{2\pi} \left( y_2 \frac{d^2y_1}{dx^2} - y_1 \frac{d^2y_2}{dx^2} \right) dx = \int_{0}^{2\pi} (\lambda_1 - \lambda_2) y_1 y_2 dx
+    \end{equation}
+
+    We have:
+
+        \begin{align}
+            y_2 \frac{d^2y_1}{dx^2} - y_1 \frac{d^2y_2}{dx^2} & = y_2 \frac{d^2y_1}{dx^2} + \frac{dy_1}{dx} \frac{dy_2}{dx} - \frac{dy_1}{dx} \frac{dy_2}{dx} - y_1 \frac{d^2y_2}{dx^2} 
+        \end{align}
+
+\end{proof}
+
+\begin{equation}
+    \left(A_0^{2r}\right)^2 + \sum_{s=0}^\infty \left(A_{2s}^{2r}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \sum_{s=0}^\infty \left(A_{2s+1}^{2r+1}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \sum_{s=0}^\infty \left(B_{2s}^{2r}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \sum_{s=0}^\infty \left(B_{2s+1}^{2r+1}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        0 & \sqrt{2}q & 0 & 0 & \dots \\
+        \sqrt{2}q & 4 & q & 0 & \dots \\
+        0 & q & 16 & q & \dots \\
+        0 & 0 & q & 36 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        \sqrt{2}A_0^{2r} \\
+        A_2^{2r}\\
+        A_4^{2r}\\
+        A_6^{2r}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = a_{2r}(q)
+    \left(
+    \begin{matrix}
+        \sqrt{2}A_0^{2r} \\
+        A_2^{2r}\\
+        A_4^{2r}\\
+        A_6^{2r}\\
+        \vdots
+    \end{matrix}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        1+q & q & 0 & 0 & \dots \\
+        q & 9 & q & 0 & \dots \\
+        0 & q & 25 & q & \dots \\
+        0 & 0 & q & 49 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        A_1^{2r+1} \\
+        A_3^{2r+1}\\
+        A_5^{2r+1}\\
+        A_7^{2r+1}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = a_{2r+1}(q)
+    \left(
+    \begin{matrix}
+        A_1^{2r+1} \\
+        A_3^{2r+1}\\
+        A_5^{2r+1}\\
+        A_7^{2r+1}\\
+        \vdots
+    \end{matrix}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        4 & q & 0 & 0 & \dots \\
+        q & 16 & q & 0 & \dots \\
+        0 & q & 36 & q & \dots \\
+        0 & 0 & q & 64 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        B_2^{2r} \\
+        B_4^{2r}\\
+        B_6^{2r}\\
+        B_8^{2r}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = b_{2r}(q)
+    \left(
+        \begin{matrix}
+            B_2^{2r} \\
+            B_4^{2r}\\
+            B_6^{2r}\\
+            B_8^{2r}\\
+            \vdots
+        \end{matrix}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        1-q & q & 0 & 0 & \dots \\
+        q & 9 & q & 0 & \dots \\
+        0 & q & 25 & q & \dots \\
+        0 & 0 & q & 49 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        B_1^{2r+1} \\
+        B_3^{2r+1}\\
+        B_5^{2r+1}\\
+        B_7^{2r+1}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = b_{2r+1}(q)
+    \left(
+        \begin{matrix}
+            B_1^{2r+1} \\
+            B_3^{2r+1}\\
+            B_5^{2r+1}\\
+            B_7^{2r+1}\\
+            \vdots
+        \end{matrix}
+    \right)
+\end{equation}
+
+https://www.biblioteca.org.ar/libros/90028.pdf
+
+We can also expand $\cos(x)$ and $\sin(x)$ in terms of $ce_n(x, q)$ and $se_n(x, q)$:
+
+\begin{equation}
+    \cos(2sx) = \sum_{r=0}^\infty \overline{A}_{2r}^{2s}(q)ce_{2r}(x,q)  
+\end{equation}
+
+\begin{equation}
+    \cos((2s+1)x) = \sum_{r=0}^\infty \overline{A}_{2r+1}^{2s+1}(q)ce_{2r+1}(x,q)  
+\end{equation}
+
+\begin{equation}
+    \sin(2sx) = \sum_{r=0}^\infty \overline{B}_{2r}^{2s}(q)se_{2r}(x,q)  
+\end{equation}
+
+\begin{equation}
+    \sin((2s+1)x) = \sum_{r=0}^\infty \overline{B}_{2r+1}^{2s+1}(q)se_{2r+1}(x,q)  
+\end{equation}
+
+By fouriers stuff we find:
+
+\begin{equation}
+    A_{2s}^{2r}(q) = \overline{A}_{2r}^{2s}(q)
+\end{equation}
+
+Except:
+\begin{equation}
+    2A_{0}^{2r}(q) = \overline{A}_{2r}^{0}(q)
+\end{equation}
+
+\begin{equation}
+    A_{2s+1}^{2r+1}(q) = \overline{A}_{2r+1}^{2s+1}(q)
+\end{equation}
+
+\begin{equation}
+    B_{2s}^{2r}(q) = \overline{B}_{2r}^{2s}(q)
+\end{equation}
+
+\begin{equation}
+    B_{2s+1}^{2r+1}(q) = \overline{B}_{2r+1}^{2s+1}(q)
+\end{equation}
+
+
+\end{document}
