@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+hi
+
 def cem(x, n, q):
 
     n_max = 30
