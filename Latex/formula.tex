@@ -1,0 +1,450 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\DeclareMathOperator{\ce}{ce}
+\DeclareMathOperator{\se}{se}
+\DeclareMathOperator{\Ce}{Ce}
+\DeclareMathOperator{\Se}{Se}
+
+\begin{document}
+
+Differential Equation:
+\begin{equation}
+    \frac{d^2y}{dx^2} + (a - 2q\cos(2x))y = 0
+\end{equation}
+
+For all $q$ there are special values $a_n(q)$ and $b_n(q)$ such that the solutions are periodic with period $\pi$ or $2\pi$.
+
+If $q=0$ this equation then reduces to $y'' + ay = 0$ which has solutions $\cos(\sqrt{a}x)$ and $\sin(\sqrt{a}x)$. These solutions have period $\pi$ or $2\pi$ if $a = n^2$. In this case we say $a(0) = a_n(0) = n^2 = b_n(0)=b(0)$. 
+
+In general $a_n(q) \neq b_n(q)$.
+
+We also have:
+
+\begin{equation}
+    a_0(q) < b_1(q) < a_1(q) < b_2(q) < \dots
+\end{equation}
+
+When $q \neq 0$ we denote the periodic solutions to Mathieu's Equation
+\begin{center}
+    $\ce_n(x, q)$, $\se_n(x, q)$   
+\end{center}
+
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    Function & Period & Symmetry \\ \hline
+    $\ce_{2r}$ & $\pi$ & even \\ \hline
+    $\ce_{2r+1}$ & $2\pi$ & even \\ \hline
+    $\se_{2r}$ & $\pi$ & odd \\ \hline
+    $\se_{2r+1}$ & $2\pi$ & odd \\ \hline
+    \end{tabular}
+\end{center}
+
+Fourier series
+
+Given the previous properties we may expand the Mathieu functions as fourier series containing only either $\cos$ or $\sin$ terms and either only even or odd multiples.
+
+\begin{equation}
+    \ce_{2r}(x, q) = \sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cos(2sx)}
+\end{equation}
+
+\begin{equation}
+    \ce_{2r+1}(x, q) = \sum_{s=0}^{\infty}{A_{2s+1}^{2r+1}(q)\cos((2s+1)x)}
+\end{equation}
+
+\begin{equation}
+    \se_{2r}(x, q) = \sum_{s=1}^{\infty}{B_{2s}^{2r}(q)\sin(2sx)}
+\end{equation}
+
+\begin{equation}
+    \se_{2r+1}(x, q) = \sum_{s=0}^{\infty}{B_{2s+1}^{2r+1}(q)\sin((2s+1)x)}
+\end{equation}
+
+Orthogonality
+
+As the Mathieu equation is of Sturm-Liouville form, for fixed $q$ the solutions $\ce_n$ and $\se_n$ must be orthogonal over $[0, 2\pi]$:
+
+\begin{equation}
+    \int_0^{2\pi}\ce_m(x, q)\ce_n(x, q)dx = \pi \delta_{mn}
+\end{equation}
+
+\begin{equation}
+    \int_0^{2\pi}\se_m(x, q)\se_n(x, q)dx = \pi \delta_{mn}
+\end{equation}
+
+\begin{equation}
+    \int_0^{2\pi}\ce_m(x, q)\se_n(x, q)dx = 0
+\end{equation}
+
+\begin{proof}
+    Suppose we have two solutions to Mathieu's equation $y_1(x, q)$ and $y_2(x, q)$ with corresopnding eigenvalues $\lambda_1$, $\lambda_2$ where $\lambda_1 \neq \lambda_2$, then we have:
+    \begin{equation}
+        \frac{d^2 y_1}{dx^2} + (\lambda_1 - 2 q \cos(x)) y_1 = 0
+    \end{equation}
+
+    \begin{equation}
+        \frac{d^2 y_2}{dx^2} + (\lambda_2 - 2 q \cos(x)) y_2 = 0
+    \end{equation}
+
+    Multiply the first by $y_2$ and the second by $y_1$ and then subratct:
+    \begin{equation}
+        y_2 \frac{d^2 y_1}{dx^2} - y_1 \frac{d^2 y_2}{dx^2} = 
+        (\lambda_1 - \lambda_2) y_1 y_2
+    \end{equation}
+    Integrate from $0$ to $2\pi$:
+    \begin{equation}
+        \int_{0}^{2\pi} \left( y_2 \frac{d^2y_1}{dx^2} - y_1 \frac{d^2y_2}{dx^2} \right) dx = \int_{0}^{2\pi} (\lambda_1 - \lambda_2) y_1 y_2 dx
+    \end{equation}
+    We have:
+    \begin{align}
+       y_2 \frac{d^2y_1}{dx^2} - y_1 \frac{d^2y_2}{dx^2} & = 
+       y_2 \frac{d^2y_1}{dx^2} + \frac{dy_1}{dx} \frac{dy_2}{dx} - \frac{dy_1}{dx} 
+       \frac{dy_2}{dx} - y_1 \frac{d^2y_2}{dx^2} \\
+        & = \frac{d}{dx} \left( y_1 \frac{dy_2}{dx} - y_2 \frac{dy_1}{dx} \right)
+    \end{align}
+    Hence:
+    \begin{equation}
+        \left[ y_1 \frac{dy_2}{dx} - y_2 \frac{dy_1}{dx} \right]_{0}^{2\pi} = 
+        (\lambda_1 - \lambda_2) \int_{0}^{2\pi} y_1 y_2 dx
+    \end{equation}
+    However, we know that $y_1$ and $y_2$ (and hence $\frac{dy_1}{dx}$, $\frac{dy_1}{dx}$) are periodic with period $2\pi$ (or $\pi$ makes no difference) so the LHS is identically zero:
+    \begin{equation}
+        0 = (\lambda_1 - \lambda_2) \int_{0}^{2\pi} y_1 y_2 dx
+    \end{equation}
+    As $\lambda_1 - \lambda_2 \neq 0$ we must have:
+    \begin{equation}
+        \int_{0}^{2\pi} y_1 y_2 dx = 0
+    \end{equation}
+    If $\lambda_1 = \lambda_2$ then $y_1 = y_2$ so 
+    \begin{equation}
+        \int_{0}^{2\pi} y_1^2dx \geq 0
+    \end{equation}
+    Which gives us the freedom to choose this value equal to $\pi$.
+\end{proof}
+
+Using the orthogonality of the funuctions we can find a suitable normalisation for the fouurier coefficients.
+
+Using the $\sin$ and $\cos$ orthogonality rules:
+
+\begin{equation}
+    \int_0^{2\pi} \cos(mx) \cos(nx) dx = 
+    \begin{cases}
+        2\pi, & \text{if}\ m = n = 0 \\
+        \pi \delta_{mn}, & \text{otherwise}
+    \end{cases}
+\end{equation}
+\begin{equation}
+    \int_0^{2\pi} \sin(mx) \sin(nx) dx = 
+    \pi \delta_{mn}
+\end{equation}
+ We can derive the following:
+
+\begin{equation}
+    2\left(A_0^{2r}\right)^2 + \sum_{s=1}^\infty \left(A_{2s}^{2r}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \sum_{s=0}^\infty \left(A_{2s+1}^{2r+1}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \sum_{s=1}^\infty \left(B_{2s}^{2r}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+    \sum_{s=0}^\infty \left(B_{2s+1}^{2r+1}\right)^2 = 1
+\end{equation}
+
+Matrix Formulation
+
+From the differential equation and using the fourier expansions of the Mathieu functions we can derive an infinite matrix formulation of the problem. From this one can calculate the eigenvalue $a_n$, $b_n$, as well as the coefficients.
+
+$\ce_{2r}(x, q)$
+
+\begin{align}
+    0 & = \frac{d^2\ce_{2r}}{dx^2} + (a_{2n} - 2q\cos(2x))\ce_{2n} \\
+    & = \frac{d^2}{dx^2}\left(\sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cos(2sx)}\right) + (a_{2n} - 2q\cos(2x))\sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cos(2sx)} \\
+    & = -\sum_{s=0}^{\infty}{A_{2s}^{2r}(q) (2s)^2 \cos(2sx)} + a_{2n} \sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cos(2sx)} - 2q\cos(2x)\sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cos(2sx)}
+\end{align}
+
+Using 
+
+\begin{equation}
+    \cos(2x) \cos(2nx) = \frac{1}{2} \left[\cos(2(n+1)x) + \cos(2(n-1)x)\right]
+\end{equation}
+
+We can equate the coefficients to get:
+
+\begin{align}
+    a A_0 - q A_2= & 0 \\
+    -2qA_0 + (a - 4) A_2 - q A_4 = & 0 \\
+    -qA_{2k-2} + (a - (2k)^2) A_{2k} - q A_{2k+2} = & 0
+\end{align}
+
+Similarly for the other functions: \\
+$\ce_{2r+1}$
+
+\begin{align}
+    (a - 1 - q) A_1 - q A_3 = & 0 \\
+    -qA_{2k-1} + (a - (2k+1)^2) A_{2k+1} - q A_{2k+3} = & 0
+\end{align}
+
+$\se_{2r}$
+
+\begin{align}
+    (b - 4) B_2 - q B_4 = & 0 \\
+    -qB_{2k-2} + (b - (2k)^2) B_{2k} - q B_{2k+2} = & 0
+\end{align}
+
+$\se_{2r+1}$
+
+\begin{align}
+    (b - 1 + q) B_1 - q B_3 = & 0 \\
+    -qB_{2k-1} + (b - (2k+1)^2) B_{2k+1} - q B_{2k+3} = & 0
+\end{align}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        0 & \sqrt{2}q & 0 & 0 & \dots \\
+        \sqrt{2}q & 4 & q & 0 & \dots \\
+        0 & q & 16 & q & \dots \\
+        0 & 0 & q & 36 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        \sqrt{2}A_0^{2r} \\
+        A_2^{2r}\\
+        A_4^{2r}\\
+        A_6^{2r}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = a_{2r}(q)
+    \left(
+    \begin{matrix}
+        \sqrt{2}A_0^{2r} \\
+        A_2^{2r}\\
+        A_4^{2r}\\
+        A_6^{2r}\\
+        \vdots
+    \end{matrix}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        1+q & q & 0 & 0 & \dots \\
+        q & 9 & q & 0 & \dots \\
+        0 & q & 25 & q & \dots \\
+        0 & 0 & q & 49 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        A_1^{2r+1} \\
+        A_3^{2r+1}\\
+        A_5^{2r+1}\\
+        A_7^{2r+1}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = a_{2r+1}(q)
+    \left(
+    \begin{matrix}
+        A_1^{2r+1} \\
+        A_3^{2r+1}\\
+        A_5^{2r+1}\\
+        A_7^{2r+1}\\
+        \vdots
+    \end{matrix}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        4 & q & 0 & 0 & \dots \\
+        q & 16 & q & 0 & \dots \\
+        0 & q & 36 & q & \dots \\
+        0 & 0 & q & 64 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        B_2^{2r} \\
+        B_4^{2r}\\
+        B_6^{2r}\\
+        B_8^{2r}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = b_{2r}(q)
+    \left(
+        \begin{matrix}
+            B_2^{2r} \\
+            B_4^{2r}\\
+            B_6^{2r}\\
+            B_8^{2r}\\
+            \vdots
+        \end{matrix}
+    \right)
+\end{equation}
+
+\begin{equation}
+    \left(
+    \begin{matrix}
+        1-q & q & 0 & 0 & \dots \\
+        q & 9 & q & 0 & \dots \\
+        0 & q & 25 & q & \dots \\
+        0 & 0 & q & 49 & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \ddots \\
+
+    \end{matrix}
+    \right)
+    \left(
+    \begin{matrix}
+        B_1^{2r+1} \\
+        B_3^{2r+1}\\
+        B_5^{2r+1}\\
+        B_7^{2r+1}\\
+        \vdots
+    \end{matrix}
+    \right)
+    = b_{2r+1}(q)
+    \left(
+        \begin{matrix}
+            B_1^{2r+1} \\
+            B_3^{2r+1}\\
+            B_5^{2r+1}\\
+            B_7^{2r+1}\\
+            \vdots
+        \end{matrix}
+    \right)
+\end{equation}
+
+https://www.biblioteca.org.ar/libros/90028.pdf
+
+We can also expand $\cos(x)$ and $\sin(x)$ in terms of $\ce_n(x, q)$ and $\se_n(x, q)$:
+
+\begin{equation}
+    \cos(2sx) = \sum_{r=0}^\infty \overline{A}_{2r}^{2s}(q)\ce_{2r}(x,q)  
+\end{equation}
+
+\begin{equation}
+    \cos((2s+1)x) = \sum_{r=0}^\infty \overline{A}_{2r+1}^{2s+1}(q)\ce_{2r+1}(x,q)  
+\end{equation}
+
+\begin{equation}
+    \sin(2sx) = \sum_{r=0}^\infty \overline{B}_{2r}^{2s}(q)\se_{2r}(x,q)  
+\end{equation}
+
+\begin{equation}
+    \sin((2s+1)x) = \sum_{r=0}^\infty \overline{B}_{2r+1}^{2s+1}(q)\se_{2r+1}(x,q)  
+\end{equation}
+
+By fouriers stuff we find:
+
+\begin{equation}
+    A_{2s}^{2r}(q) = \overline{A}_{2r}^{2s}(q)
+\end{equation}
+
+Except:
+\begin{equation}
+    2A_{0}^{2r}(q) = \overline{A}_{2r}^{0}(q)
+\end{equation}
+
+\begin{equation}
+    A_{2s+1}^{2r+1}(q) = \overline{A}_{2r+1}^{2s+1}(q)
+\end{equation}
+
+\begin{equation}
+    B_{2s}^{2r}(q) = \overline{B}_{2r}^{2s}(q)
+\end{equation}
+
+\begin{equation}
+    B_{2s+1}^{2r+1}(q) = \overline{B}_{2r+1}^{2s+1}(q)
+\end{equation}
+
+Differential Equation modified:
+\begin{equation}
+    \frac{d^2y}{dx^2} - (a - 2q\cosh(2x))y = 0
+\end{equation}
+
+This equation relates to that of the angular mathieu functions via $x \rightarrow ix$ and hence the corresponding solutions are:
+
+\begin{equation}
+    \ce_n(ix, q)
+\end{equation}
+\begin{equation}
+    -i \se_n(ix, q)
+\end{equation}
+
+Provided that $a = a_n(q)$ or $a = b_n(q)$.
+
+We can write these solutions as:
+
+\begin{equation}
+    \Ce_n(x, q) = \ce_n(ix, q)
+\end{equation}
+
+\begin{equation}
+    \Se_n(x, q) = -i \se_n(ix, q)
+\end{equation}
+
+Using these we can rewrite the fourier expansions as:
+
+\begin{equation}
+    \Ce_{2r}(x, q) = \sum_{s=0}^{\infty}{A_{2s}^{2r}(q)\cosh(2sx)}
+\end{equation}
+
+\begin{equation}
+    \Ce_{2r+1}(x, q) = \sum_{s=0}^{\infty}{A_{2s+1}^{2r+1}(q)\cosh((2s+1)x)}
+\end{equation}
+
+\begin{equation}
+    \Se_{2r}(x, q) = \sum_{s=1}^{\infty}{B_{2s}^{2r}(q)\sinh(2sx)}
+\end{equation}
+
+\begin{equation}
+    \Se_{2r+1}(x, q) = \sum_{s=0}^{\infty}{B_{2s+1}^{2r+1}(q)\sinh((2s+1)x)}
+\end{equation}
+
+However this isn't the best formulation of these functions as $\cosh$ and $\sinh$ grom very rapidly. Instead we should expand these in terms of bessel functions.
+
+We know that the bessel functions are orthonormal in two ways:
+
+\begin{equation}
+    \int_0^1 J_n(\alpha_{ni}x) J_n(\alpha_{nj}x) dx = \delta_{ij} \frac{J^{\prime}_n(\alpha_{ni})}{2}
+\end{equation}
+
+\begin{align}
+    \int_0^\infty J_n(x) J_m(x) \frac{dx}{x} & = \delta_{nm} \frac{1}{2n} \\
+    \int_{-\infty}^\infty J_n(e^u) J_m(e^u) du & = \delta_{nm} \frac{1}{2n} \\
+    \int_{0}^\infty J_n(2 \sqrt{q} \sinh(v)) J_m(2 \sqrt{q} \sinh(v)) \coth(v) dv & = \delta_{nm} \frac{1}{2n}
+\end{align}
+
+GETS FUNNY AT $m = n = 0$
+
+Using the second one as a basis for $L^2[0,\infty]$ we can expand the modified mathieu functions as a sum of Bessel functions:
+
+Let y 
+\begin{equation}
+    \Ce_{n}(x) = \sum_{0}^{\infty} c_n J_{n} \left(2 \sqrt{q} \sinh(x) \right)
+\end{equation}
+
+
+
+\end{document}

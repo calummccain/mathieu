@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <title>first page</title>
+    </head>
+
+    <body>
+
+        <script type="module">
+
+            import * as THREE from "./three.module.js";
+            import * as BE from "./bessel.js";
+            import { OrbitControls } from "./orbit-controls.js";
+
+            var WIDTH = window.innerWidth;
+            var HEIGHT = window.innerHeight;
+
+            const width = 80;
+            const height = 160;
+
+            const div_mu = 120;
+            const div_nu = 320;
+
+            var scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x999999);
+
+            // Orthographic
+            var camera = new THREE.OrthographicCamera(WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, 1, 10000);
+
+            // Perspective
+            //var camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 10000);
+            camera.position.set(0, 10, 0);
+            camera.lookAt(scene.position);
+            camera.updateMatrix();
+
+            scene.add(camera);
+            scene.add(new THREE.HemisphereLight(0xcccccc, 0x222222));
+
+            var renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(WIDTH, HEIGHT);
+
+            var controls = new OrbitControls(camera, renderer.domElement);
+            controls.update();
+
+            const geometry = new THREE.BufferGeometry();
+            const numPoints = div_mu * div_nu;
+
+            const positions = new Float32Array(numPoints * 3);
+            const colors = new Float32Array(numPoints * 3);
+            const color = new THREE.Color(0, 1, 0);
+
+            let k = 0;
+
+            const q = 1;
+            const n = 5;
+
+            var angular = [];
+            for (var j = 0; j < div_nu; j++) {
+                var nu = (2 * j / div_nu - 1) * Math.PI;
+                angular.push(Math.cos(n * nu));
+            }
+
+            console.log(angular)
+
+            var radial = [];
+            for (var i = 0; i <= div_mu; i++) {
+                var mu = i / div_mu;
+                radial.push(BE.besselj_list(20, mu * 20)[n]);
+            }
+            console.log(radial);
+
+            for (var i = 0; i <= div_mu; i++) {
+
+                var mu = i / div_mu;
+
+                for (var j = 0; j < div_nu; j++) {
+
+                    var nu = 2 * Math.PI * j / div_nu - Math.PI;
+
+                    var x = mu * Math.cos(nu);
+                    var z = mu * Math.sin(nu);
+                    var y = angular[j] * radial[i];
+
+                    positions[3 * k] = x;
+                    positions[3 * k + 1] = y;
+                    positions[3 * k + 2] = z;
+
+                    const intensity = (y + 0.1) * 5;
+                    colors[3 * k] = color.r * intensity;
+                    colors[3 * k + 1] = color.g * intensity;
+                    colors[3 * k + 2] = color.b * intensity;
+
+                    k++;
+
+                }
+
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.computeBoundingBox();
+
+            var material = new THREE.PointsMaterial({ size: 1, vertexColors: true });
+            //material.color.setHSL(Math.random(), Math.random(), Math.random());
+
+            var particles = new THREE.Points(geometry, material);
+            particles.scale.set(3, 3, 3);
+            scene.add(particles);
+
+            document.body.appendChild(renderer.domElement);
+
+            render();
+
+            function render() {
+
+                requestAnimationFrame(render);
+
+                controls.update();
+                renderer.render(scene, camera);
+
+            }
+
+        </script>
+
+    </body>
+
+</html>
