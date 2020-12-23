@@ -37,6 +37,6 @@ for xk in range(xn):
 
 # can comment out one of these
 # ax.plot_surface(X, Y, W, rstride=1, cstride=1, cmap=cm.jet)
-ax.plot_wireframe(X, Y, W, rstride=5, cstride=5)
+#ax.plot_wireframe(X, Y, W, rstride=5, cstride=5)
 
 pylab.show()
