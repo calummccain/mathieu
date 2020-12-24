@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+            </script>
+        <script>
+            $(function () {
+                $("#side-menu").load("./menu-bars.html");
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            });
+        </script>
+
+        <link rel="stylesheet" href="./test.css">
+
+        <title>Mathieu</title>
+    </head>
+
+    <body>
+
+        <div id="side-menu"></div>
+
+        <script type="module">
+
+            import * as THREE from "./three.module.js";
+
+            import { MapControls, OrbitControls } from "./orbit-controls.js";
+            
+            import { se, ce } from "./mathieu.js";
+
+            var view = document.getElementById("view");
+            var WIDTH = view.clientWidth;
+            var HEIGHT = view.clientHeight;
+            var rect = view.getBoundingClientRect();
+
+            var intersectionObjectName, intersectionObject;
+
+            const s = 3;
+
+            var mouseVector = new THREE.Vector2();
+            var raycaster = new THREE.Raycaster();
+
+            // setup scene
+            var scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x111111);
+
+            // add camera and light to scene
+            var camera = new THREE.OrthographicCamera(-WIDTH / 200, WIDTH / 200, -HEIGHT / 200, HEIGHT / 200, 1, 1000);
+            camera.position.set(0, 5, 0);
+            camera.lookAt(0, 0, 0);
+            camera.updateProjectionMatrix();
+            camera.add(new THREE.HemisphereLight(0xaaaaaa, 0x555555));
+
+            // var camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 100);
+            // camera.position.set(3, 0, 0);
+            // camera.updateProjectionMatrix();
+            // camera.add(new THREE.HemisphereLight(0xaaaaaa, 0x555555));
+
+            scene.add(camera);
+            scene.add(new THREE.HemisphereLight(0xcccccc, 0x222222));
+
+            const i_max = 100;
+            const q = 1;
+            var ce0 = (x) => ce(x, 0, q);
+            var ce1 = (x) => ce(x, 1, q);
+            var ce2 = (x) => ce(x, 2, q);
+            var ce3 = (x) => ce(x, 3, q);
+            var ce4 = (x) => ce(x, 4, q);
+            var ce5 = (x) => ce(x, 5, q);
+            var ce6 = (x) => ce(x, 6, q);
+
+            const functions = [ce0, ce1, ce2, ce3];
+
+            functions.forEach((element) => {
+                var array = [];
+                for (var i = 0; i <= i_max; i++) {
+                    var theta = 2 * Math.PI * i / i_max - Math.PI;
+                    array.push(new THREE.Vector3(theta, 0, element(theta)));
+                };
+
+                var material = new THREE.LineBasicMaterial({ color: new THREE.Color(Math.random(), Math.random(), Math.random()) });
+                var geometry = new THREE.Geometry();
+                geometry.vertices = array;
+                var line = new THREE.Line(geometry, material);
+                line.name = element;
+                scene.add(line);
+            });
+
+
+            gridlines(-Math.PI, Math.PI, 12, "x");
+            gridlines(-2, 2, 10, "y");
+
+            // setup the renderer
+            var renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(WIDTH, HEIGHT);
+
+            // add controls to the camera
+            var controls = new MapControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enableRotate = false;
+            controls.screenSpacePanning = true;
+            controls.target = new THREE.Vector3(0, 0, 0);
+            controls.enabled = true;
+
+            // var controls = new OrbitControls(camera, renderer.domElement);
+            // controls.enableZoom = true;
+            // controls.enabled = true;
+            // controls.minZoom = 1;
+            // controls.maxZoom = 5;
+            // controls.update();
+
+            // var minPan = new THREE.Vector3(0, -s, 0);
+            // var maxPan = new THREE.Vector3(5 * s, 2 * s, 0);
+            // var _v = new THREE.Vector3();
+
+            // controls.addEventListener("change", function () {
+            //     _v.copy(controls.target);
+            //     controls.target.clamp(minPan, maxPan);
+            //     _v.sub(controls.target);
+            //     camera.position.sub(_v);
+            // });
+
+            controls.update();
+
+            // add some event listeners
+            window.addEventListener("mousemove", onMouseMove, false);
+            window.addEventListener("resize", onWindowResize, false);
+
+            // add the renderer to the 'view' div
+            view.appendChild(renderer.domElement);
+
+            render();
+
+            function render() {
+
+                requestAnimationFrame(render);
+
+                renderer.render(scene, camera);
+
+            }
+
+            function onWindowResize(event) {
+
+                WIDTH = view.clientWidth;
+                HEIGHT = view.clientHeight;
+                renderer.setSize(WIDTH, HEIGHT);
+                camera.left = -WIDTH / 2;
+                camera.right = WIDTH / 2;
+                camera.top = -HEIGHT / 2;
+                camera.bottom = HEIGHT / 2;
+
+                camera.updateProjectionMatrix();
+
+            }
+
+            function onMouseMove(event) {
+
+                event.preventDefault();
+
+                mouseVector.x = ((event.clientX - rect.left) / WIDTH) * 2 - 1;
+                mouseVector.y = - (event.clientY / HEIGHT) * 2 + 1;
+                raycaster.setFromCamera(mouseVector, camera);
+
+                var intersects = raycaster.intersectObjects(scene.children);
+                document.getElementById("content2").innerHTML = intersects[0].name;
+                console.log(intersects[0])
+            }
+
+            function gridlines(start, end, number, orientation) {
+
+                const height = 10;
+                const width = 10;
+
+                const material = new THREE.LineDashedMaterial({ color: 0xFFFFFF });
+
+                if (orientation === "x") {
+
+                    for (var i = 0; i <= number; i++) {
+
+                        var geometry = new THREE.BufferGeometry().setFromPoints([
+                            new THREE.Vector3(start + i * (end - start) / number, -5, height),
+                            new THREE.Vector3(start + i * (end - start) / number, -5, -height)
+                        ])
+
+                        scene.add(new THREE.Line(geometry, material))
+
+                    }
+
+                } else if (orientation === "y") {
+
+                    for (var i = 0; i <= number; i++) {
+
+                        var geometry = new THREE.BufferGeometry().setFromPoints([
+                            new THREE.Vector3(width, -5, start + i * (end - start) / number),
+                            new THREE.Vector3(-width, -5, start + i * (end - start) / number)
+                        ])
+
+                        scene.add(new THREE.Line(geometry, material))
+
+                    }
+
+
+                }
+
+            }
+
+
+
+        </script>
+
+        <div id="view"></div>
+
+    </body>
+
+</html>
