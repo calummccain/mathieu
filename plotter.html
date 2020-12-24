@@ -30,8 +30,8 @@
             import * as THREE from "./three.module.js";
 
             import { MapControls, OrbitControls } from "./orbit-controls.js";
-            
-            import { se, ce } from "./mathieu.js";
+
+            import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
 
             var view = document.getElementById("view");
             var WIDTH = view.clientWidth;
@@ -64,26 +64,36 @@
             scene.add(camera);
             scene.add(new THREE.HemisphereLight(0xcccccc, 0x222222));
 
-            const i_max = 100;
-            const q = 1;
-            var ce0 = (x) => ce(x, 0, q);
-            var ce1 = (x) => ce(x, 1, q);
-            var ce2 = (x) => ce(x, 2, q);
-            var ce3 = (x) => ce(x, 3, q);
-            var ce4 = (x) => ce(x, 4, q);
-            var ce5 = (x) => ce(x, 5, q);
-            var ce6 = (x) => ce(x, 6, q);
+            const n_max = 100;
 
-            const functions = [ce0, ce1, ce2, ce3];
+            const functions = [
+                (q) => a_eigen(0, q),
+                (q) => a_eigen(1, q),
+                (q) => a_eigen(2, q),
+                (q) => a_eigen(3, q),
+                (q) => a_eigen(4, q),
+                (q) => a_eigen(5, q),
+                (q) => a_eigen(6, q),
+                (q) => a_eigen(7, q),
+                (q) => a_eigen(8, q),
+                (q) => a_eigen(9, q),
+                (q) => b_eigen(1, q),
+                (q) => b_eigen(2, q),
+                (q) => b_eigen(3, q),
+                (q) => b_eigen(4, q),
+                (q) => b_eigen(5, q),
+                (q) => b_eigen(6, q),
+                (q) => b_eigen(7, q),
+                (q) => b_eigen(8, q),
+                (q) => b_eigen(9, q)]
 
             functions.forEach((element) => {
                 var array = [];
-                for (var i = 0; i <= i_max; i++) {
-                    var theta = 2 * Math.PI * i / i_max - Math.PI;
-                    array.push(new THREE.Vector3(theta, 0, element(theta)));
+                for (var n = -n_max; n <= n_max; n++) {
+                    array.push(new THREE.Vector3(n, 0, element(n)));
                 };
-
-                var material = new THREE.LineBasicMaterial({ color: new THREE.Color(Math.random(), Math.random(), Math.random()) });
+                console.log(array)
+                var material = new THREE.LineBasicMaterial({ color: new THREE.Color(1 - Math.random() ** 2, 1 - Math.random() ** 2, 1 - Math.random() ** 2) });
                 var geometry = new THREE.Geometry();
                 geometry.vertices = array;
                 var line = new THREE.Line(geometry, material);
@@ -92,8 +102,8 @@
             });
 
 
-            gridlines(-Math.PI, Math.PI, 12, "x");
-            gridlines(-2, 2, 10, "y");
+            //gridlines(0, 50, 10, "x");
+            //gridlines(-50, 50, 20, "y");
 
             // setup the renderer
             var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -128,7 +138,7 @@
             controls.update();
 
             // add some event listeners
-            window.addEventListener("mousemove", onMouseMove, false);
+            // window.addEventListener("mousemove", onMouseMove, false);
             window.addEventListener("resize", onWindowResize, false);
 
             // add the renderer to the 'view' div
@@ -158,23 +168,22 @@
 
             }
 
-            function onMouseMove(event) {
+            // function onMouseMove(event) {
 
-                event.preventDefault();
+            //     event.preventDefault();
 
-                mouseVector.x = ((event.clientX - rect.left) / WIDTH) * 2 - 1;
-                mouseVector.y = - (event.clientY / HEIGHT) * 2 + 1;
-                raycaster.setFromCamera(mouseVector, camera);
+            //     mouseVector.x = ((event.clientX - rect.left) / WIDTH) * 2 - 1;
+            //     mouseVector.y = - (event.clientY / HEIGHT) * 2 + 1;
+            //     raycaster.setFromCamera(mouseVector, camera);
 
-                var intersects = raycaster.intersectObjects(scene.children);
-                document.getElementById("content2").innerHTML = intersects[0].name;
-                console.log(intersects[0])
-            }
+            //     var intersects = raycaster.intersectObjects(scene.children);
+            //     document.getElementById("content2").innerHTML = intersects[0].name;
+            // }
 
             function gridlines(start, end, number, orientation) {
 
-                const height = 10;
-                const width = 10;
+                const height = 50;
+                const width = 50;
 
                 const material = new THREE.LineDashedMaterial({ color: 0xFFFFFF });
 
