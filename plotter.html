@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="./test.css">
 
         <title>Mathieu</title>
+
     </head>
 
     <body>
@@ -27,9 +28,9 @@
 
         <script type="module">
 
-            import * as THREE from "./three.module.js";
+            import * as THREE from "./js/three.module.js";
 
-            import { MapControls, OrbitControls } from "./orbit-controls.js";
+            import { MapControls, OrbitControls } from "./js/orbit-controls.js";
 
             import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
 
@@ -47,7 +48,7 @@
 
             // setup scene
             var scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x111111);
+            scene.background = new THREE.Color(0xCCCCCC);
 
             // add camera and light to scene
             var camera = new THREE.OrthographicCamera(-WIDTH / 200, WIDTH / 200, -HEIGHT / 200, HEIGHT / 200, 1, 1000);

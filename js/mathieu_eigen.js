@@ -24,11 +24,7 @@ function approximation(n, q, ab) {
         approx -= (63 * (s ** 6) + 1269 * (s ** 4) + 2943 * (s ** 2) + 486) / (1048576 * (h ** 4));
         approx -= (527 * (s ** 7) + 15617 * (s ** 5) + 69001 * (s ** 3) + 41607) / (33554432 * (h ** 5));
 
-        console.log("big")
-
     } else {
-
-        console.log("small")
 
         if ((ab === 'a') && (n <= 6)) {
 
@@ -338,8 +334,6 @@ function b_eigen(n, q) {
 
     var approx = approximation(n, q, "b");
 
-    console.log("approx", approx)
-
     if (n % 2 == 0) {
 
         if (q < 0) {
@@ -410,18 +404,6 @@ function b_eigen(n, q) {
     }
 
 }
-
-
-// for (var q = 0; q < 31; q++) {
-
-//     console.log(q)
-
-//     console.log(b_eigen(1, q))
-// }
-
-
-console.log(b_eigen(1, 7))
-
 
 export { a_eigen, b_eigen };
 
