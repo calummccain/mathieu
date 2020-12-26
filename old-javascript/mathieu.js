@@ -38,13 +38,14 @@ function ce(x, n, q) {
     for (var i = 0; i < 30; i++) {
         normalised.push(coeff[i] / norm);
     }
-    //console.log(normalised);
+
+    console.log(normalised);
 
     var val = 0;
 
     for (var i = 0; i < 30; i++) {
         val += normalised[i] * Math.cos((2 * i + (n % 2)) * x);
-        //console.log(normalised[i], Math.cos((2 * i + (n % 2)) * x), val)
+        console.log(normalised[i], Math.cos((2 * i + (n % 2)) * x))
     }
 
     return val;

@@ -33,6 +33,7 @@
             import { MapControls, OrbitControls } from "./js/orbit-controls.js";
 
             import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
+            import { ce, se } from "./js/mathieu_funct.js";
 
             var view = document.getElementById("view");
             var WIDTH = view.clientWidth;
@@ -67,36 +68,68 @@
 
             const n_max = 100;
 
+            // const functions = [
+            //     (q) => a_eigen(0, q),
+            //     (q) => a_eigen(1, q),
+            //     (q) => a_eigen(2, q),
+            //     (q) => a_eigen(3, q),
+            //     (q) => a_eigen(4, q),
+            //     (q) => a_eigen(5, q),
+            //     (q) => a_eigen(6, q),
+            //     (q) => a_eigen(7, q),
+            //     (q) => a_eigen(8, q),
+            //     (q) => a_eigen(9, q),
+            //     (q) => b_eigen(1, q),
+            //     (q) => b_eigen(2, q),
+            //     (q) => b_eigen(3, q),
+            //     (q) => b_eigen(4, q),
+            //     (q) => b_eigen(5, q),
+            //     (q) => b_eigen(6, q),
+            //     (q) => b_eigen(7, q),
+            //     (q) => b_eigen(8, q),
+            //     (q) => b_eigen(9, q)];
+
+            const scale = 1;
+            const q = 100;
+            const m = 2;
+
+            // const functions = [
+            //     (x) => ce(x, 0, q),
+            //     (x) => ce(x, 1, q),
+            //     (x) => ce(x, 2, q),
+            //     (x) => ce(x, 3, q),
+            //     (x) => ce(x, 4, q)
+            // ];
+
             const functions = [
-                (q) => a_eigen(0, q),
-                (q) => a_eigen(1, q),
-                (q) => a_eigen(2, q),
-                (q) => a_eigen(3, q),
-                (q) => a_eigen(4, q),
-                (q) => a_eigen(5, q),
-                (q) => a_eigen(6, q),
-                (q) => a_eigen(7, q),
-                (q) => a_eigen(8, q),
-                (q) => a_eigen(9, q),
-                (q) => b_eigen(1, q),
-                (q) => b_eigen(2, q),
-                (q) => b_eigen(3, q),
-                (q) => b_eigen(4, q),
-                (q) => b_eigen(5, q),
-                (q) => b_eigen(6, q),
-                (q) => b_eigen(7, q),
-                (q) => b_eigen(8, q),
-                (q) => b_eigen(9, q)]
+                (x) => se(x, m, 0),
+                (x) => se(x, m, 1),
+                (x) => se(x, m, 2),
+                (x) => se(x, m, 4),
+                (x) => se(x, m, 8),
+                (x) => se(x, m, 16),
+                (x) => se(x, m, 32),
+                (x) => se(x, m, 64),
+                (x) => se(x, m, 128)
+            ];
+
+            var x_vals = []
+            for (var n = -n_max; n <= n_max; n++) {
+                x_vals.push(n * Math.PI / n_max);
+            };
 
             functions.forEach((element) => {
-                var array = [];
-                for (var n = -n_max; n <= n_max; n++) {
-                    array.push(new THREE.Vector3(n, 0, element(n)));
-                };
-                console.log(array)
-                var material = new THREE.LineBasicMaterial({ color: new THREE.Color(1 - Math.random() ** 2, 1 - Math.random() ** 2, 1 - Math.random() ** 2) });
+
+                var y_vals = element(x_vals);
+
                 var geometry = new THREE.Geometry();
-                geometry.vertices = array;
+
+                for (var n = 0; n < x_vals.length; n++) {
+                    geometry.vertices.push(new THREE.Vector3(x_vals[n], 0, scale * y_vals[n]));
+                };
+
+                var material = new THREE.LineBasicMaterial({ color: new THREE.Color(1 - Math.random() ** 2, 1 - Math.random() ** 2, 1 - Math.random() ** 2) });
+
                 var line = new THREE.Line(geometry, material);
                 line.name = element;
                 scene.add(line);

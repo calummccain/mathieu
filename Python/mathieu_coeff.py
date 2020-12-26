@@ -44,7 +44,7 @@ def a_even_coeff_back(a, q, n):
 
     return coeff
 
-# print(a_even_coeff(4.371300982777029, 1, 10))
+print(a_even_coeff_back(-0.4551386038078036, 1, 20))
 # print(a_even_coeff_back(4.371300982777029, 1, 10))
 
 def a_odd_coeff_back(a, q, n):

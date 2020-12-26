@@ -8,13 +8,13 @@
 function a_even_coeff(a, q, numberOfTerms) {
 
     var a_2n_2 = 0, a_2n_4 = 1;
-    var i = 2 * numberOfTerms - 6, norm = 0;
+    var i = 2 * numberOfTerms - 6, norm = 0, sign = 0;
     var coeff = [a_2n_4, a_2n_2];
     var unitCoeff = [];
 
     if (q == 0) {
 
-        n = Math.sqrt(a) / 2;
+        const n = Math.sqrt(a) / 2;
 
         for (var i = 0; i < n; i++) {
 
@@ -48,20 +48,23 @@ function a_even_coeff(a, q, numberOfTerms) {
         if (i > 0) {
 
             coeff = [-coeff[1] + (a - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-            norm += coeff[0] ** 2;
+            norm += (coeff[0] ** 2);
+            sum += coeff[0];
             i -= 2;
 
         } else if (i == 0) {
 
             coeff = [(-coeff[1] + (a - 4) * coeff[0] / q) / 2].concat(coeff);
-            norm += 2 * coeff[0] ** 2;
+            norm += 2 * (coeff[0] ** 2);
+            sum += coeff[0];
             i -= 2;
 
         }
 
     }
 
-    norm = Math.sqrt(norm);
+    sign = Math.sign(sign);
+    norm = sign * Math.sqrt(norm);
 
     for (var i = 0; i < numberOfTerms; i++) {
 
@@ -76,13 +79,13 @@ function a_even_coeff(a, q, numberOfTerms) {
 function a_odd_coeff(a, q, numberOfTerms) {
 
     var a_2n_1 = 0, a_2n_3 = 1;
-    var i = 2 * numberOfTerms - 5, norm = 0;
+    var i = 2 * numberOfTerms - 5, norm = 0, sign = 0;
     var coeff = [a_2n_3, a_2n_1];
     var unitCoeff = [];
 
     if (q == 0) {
 
-        n = (Math.sqrt(a) - 1) / 2;
+        const n = (Math.sqrt(a) - 1) / 2;
 
         for (var i = 0; i < n; i++) {
 
@@ -104,17 +107,15 @@ function a_odd_coeff(a, q, numberOfTerms) {
 
     while (i >= 0) {
 
-        if (i > 0) {
-
-            coeff = [-coeff[1] + (a - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-            norm += coeff[0] ** 2;
-            i -= 2;
-
-        }
+        coeff = [-coeff[1] + (a - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
+        norm += coeff[0] ** 2;
+        sign += coeff[0];
+        i -= 2;
 
     }
 
-    norm = Math.sqrt(norm);
+    sign = Math.sign(sign)
+    norm = sign * Math.sqrt(norm);
 
     for (var i = 0; i < numberOfTerms; i++) {
 
@@ -129,15 +130,15 @@ function a_odd_coeff(a, q, numberOfTerms) {
 function b_even_coeff(b, q, numberOfTerms) {
 
     var b_2n_2 = 0, b_2n_4 = 1;
-    var i = 2 * numberOfTerms - 6, norm = 0;
+    var i = 2 * numberOfTerms - 6, norm = 0, sign = 0;
     var coeff = [b_2n_4, b_2n_2];
     var unitCoeff = [];
 
     if (q == 0) {
 
-        n = Math.sqrt(b) / 2;
+        const n = Math.sqrt(b) / 2;
 
-        for (var i = 0; i < n; i++) {
+        for (var i = 1; i < n; i++) {
 
             unitCoeff.push(0);
 
@@ -157,17 +158,15 @@ function b_even_coeff(b, q, numberOfTerms) {
 
     while (i >= 0) {
 
-        if (i > 0) {
-
-            coeff = [-coeff[1] + (b - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-            norm += coeff[0] ** 2;
-            i -= 2;
-
-        }
+        coeff = [-coeff[1] + (b - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
+        norm += coeff[0] ** 2;
+        sign += i * coeff[0];
+        i -= 2;
 
     }
 
-    norm = Math.sqrt(norm);
+    sign = Math.sign(sign);
+    norm = sign * Math.sqrt(norm);
 
     for (var i = 0; i < numberOfTerms; i++) {
 
@@ -182,15 +181,15 @@ function b_even_coeff(b, q, numberOfTerms) {
 function b_odd_coeff(b, q, numberOfTerms) {
 
     var b_2n_1 = 0, b_2n_3 = 1;
-    var i = 2 * numberOfTerms - 5, norm = 0;
+    var i = 2 * numberOfTerms - 5, norm = 0, sign = 0;
     var coeff = [b_2n_3, b_2n_1];
     var unitCoeff = [];
 
     if (q == 0) {
 
-        n = (Math.sqrt(b) - 1) / 2;
+        const n = (Math.sqrt(b) - 1) / 2;
 
-        for (var i = 0; i < n; i++) {
+        for (var i = 1; i < n; i++) {
 
             unitCoeff.push(0);
 
@@ -210,17 +209,15 @@ function b_odd_coeff(b, q, numberOfTerms) {
 
     while (i >= 0) {
 
-        if (i > 0) {
-
-            coeff = [-coeff[1] + (b - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-            norm += coeff[0] ** 2;
-            i -= 2;
-
-        }
+        coeff = [-coeff[1] + (b - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
+        norm += coeff[0] ** 2;
+        sign += i * coeff[0];
+        i -= 2;
 
     }
 
-    norm = Math.sqrt(norm);
+    sign = Math.sign(sign);
+    norm = sign * Math.sqrt(norm);
 
     for (var i = 0; i < numberOfTerms; i++) {
 
