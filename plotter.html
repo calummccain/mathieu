@@ -35,7 +35,8 @@
             import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
             import { ce, se } from "./js/mathieu_funct.js";
             import { cem, sem } from "./js/mathieu_modif.js";
-            import {besselj} from "./js/bessel.js";
+            import { besselj } from "./js/bessel.js";
+            import { findNthRoot } from "./js/math_funct.js";
 
             var view = document.getElementById("view");
             var WIDTH = view.clientWidth;
@@ -91,9 +92,9 @@
             //     (q) => b_eigen(8, q),
             //     (q) => b_eigen(9, q)];
 
-            const scale = 2;
+            const scale = 100;
             const q = 10;
-            const m = 10;
+            const m = 20;
 
             // const functions = [
             //     (x) => ce(x, 0, q),
@@ -128,19 +129,31 @@
 
             // ];
 
-            const functions = [
-                (x) => sem(x, m, 0),
-                (x) => sem(x, m, 1),
-                (x) => sem(x, m, 2),
-                (x) => sem(x, m, 4),
-                (x) => sem(x, m, 8),
-                (x) => sem(x, m, 16),
-                (x) => sem(x, m, 32),
-                (x) => sem(x, m, 64),
-                (x) => sem(x, m, 128),
+            // const functions = [
+            //     (x) => sem(x, m, 0),
+            //     (x) => sem(x, m, 1),
+            //     (x) => sem(x, m, 2),
+            //     (x) => sem(x, m, 4),
+            //     (x) => sem(x, m, 8),
+            //     (x) => sem(x, m, 16),
+            //     (x) => sem(x, m, 32),
+            //     (x) => sem(x, m, 64),
+            //     (x) => sem(x, m, 128),
 
-            ];
+            // ];
 
+            // const functions = [
+            //     (x) => sem(x, 1, q),
+            //     (x) => sem(x, 2, q),
+            //     (x) => sem(x, 3, q),
+            //     (x) => sem(x, 4, q),
+            //     (x) => sem(x, 5, q),
+            //     (x) => sem(x, 6, q),
+            //     (x) => sem(x, 7, q),
+            //     (x) => sem(x, 8, q),
+            //     (x) => sem(x, 9, q),
+
+            // ];
 
             // const functions = [
             //     (x) => besselj(x, 0),
@@ -150,6 +163,18 @@
             //     (x) => besselj(x, 4),
             //     (x) => besselj(x, 30)
             // ];
+
+            var root = (p) => findNthRoot((x) => besselj(x, m), p, 1, 0, 50, 1e-10)
+
+            const functions = [
+                (x) => besselj(x, m, root(2)),
+                (x) => besselj(x, m, root(3)),
+                (x) => besselj(x, m, root(4)),
+                (x) => besselj(x, m, root(5)),
+                (x) => besselj(x, m, root(6)),
+                (x) => besselj(x, m, root(7)),
+                (x) => besselj(x, m, root(8))
+            ];
 
             var x_vals = []
             // for (var n = -n_max; n <= n_max; n++) {
@@ -163,11 +188,11 @@
             functions.forEach((element) => {
 
                 var y_vals = element(x_vals);
-                console.log(y_vals)
+                //console.log(y_vals)
                 var geometry = new THREE.Geometry();
 
                 for (var n = 0; n < x_vals.length; n++) {
-                    geometry.vertices.push(new THREE.Vector3(x_vals[n], 0, scale * y_vals[n]));
+                    geometry.vertices.push(new THREE.Vector3(x_vals[n], 0, y_vals[n]));
                 };
 
                 var material = new THREE.LineBasicMaterial({ color: new THREE.Color(1 - Math.random() ** 2, 1 - Math.random() ** 2, 1 - Math.random() ** 2) });

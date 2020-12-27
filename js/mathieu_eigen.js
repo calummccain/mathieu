@@ -1,3 +1,5 @@
+import { interval_bisection } from "./math_funct.js";
+
 // Calculates the eigenvalues for the pi/2pi periodic solutions to Mathieu's Differential equation
 // Uses https://dlmf.nist.gov/28.6#i to estimate the eigenvalue
 // if q > i^2 or if i = 0 and q > 1 use https://dlmf.nist.gov/28.8.E1 (the asymptotic expansion)
@@ -97,52 +99,6 @@ function approximation(n, q, ab) {
     }
 
     return approx;
-}
-
-// Uses interval bisection to find a root of the equation in the given interval
-// Converts numbers to floats or else python goes a bit funny
-// function : function to have its root found
-//         a: start point of iteration
-//         b: end point of iteration
-//         e: tolerance of algorithm - once abs(b - a) < e, terminates
-// returns either the root or 'error' if the values of the function at the end points have the same signs
-
-function interval_bisection(fun, a, b, e) {
-
-    var fa = fun(a);
-    var fb = fun(b);
-
-    if (fa == 0) {
-        return a;
-    } else if (fb == 0) {
-        return b;
-    } else if (fa * fb > 0) {
-        return "error";
-    }
-
-    var dx = Math.abs(b - a);
-
-    while (dx > e) {
-
-        var c = (a + b) / 2;
-        var fc = fun(c);
-
-        if (fc == 0) {
-            return c;
-        } else if (fa * fc < 0) {
-            a = a;
-            b = c;
-            fb = fun(b);
-        } else {
-            a = c;
-            b = b;
-            fa = fun(a);
-        }
-
-        dx = Math.abs(b - a);
-    }
-
-    return (a + b) / 2;
 }
 
 // These functions return the determinant of A(q) - xI for A(q) the tridiagonal mathieu matrix (truncated)
@@ -247,7 +203,7 @@ function a_eigen(n, q) {
         if (q < 0) {
 
             return a_eigen(n, -q);
-    
+
         }
 
         var lhs = a_even_tridiag_det(approx - tol, q, size);
@@ -283,7 +239,7 @@ function a_eigen(n, q) {
         if (q < 0) {
 
             return b_eigen(n, -q);
-    
+
         }
 
         if (a_odd_tridiag_det(approx - tol, q, size) * a_odd_tridiag_det(approx + tol, q, size) < 0) {
@@ -339,7 +295,7 @@ function b_eigen(n, q) {
         if (q < 0) {
 
             return b_eigen(n, -q);
-    
+
         }
 
         var lhs = b_even_tridiag_det(approx - tol, q, size);
@@ -375,7 +331,7 @@ function b_eigen(n, q) {
         if (q < 0) {
 
             return a_eigen(n, -q);
-    
+
         }
 
         if (b_odd_tridiag_det(approx - tol, q, size) * b_odd_tridiag_det(approx + tol, q, size) < 0) {
