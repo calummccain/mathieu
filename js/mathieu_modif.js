@@ -8,7 +8,7 @@ import * as be from "./bessel.js";
 // get multilicative factor!!!
 // calculate derivatives
 
-function cem(x, n, q) {
+function cem(x, n, q, scale = 1) {
 
     const a = me.a_eigen(n, q);
     const maxNumberOfTerms = Math.max(n, 30);
@@ -32,7 +32,7 @@ function cem(x, n, q) {
     if (typeof (x) === "number") {
 
         var val = 0;
-        const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * x)), x);
+        const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x)), scale * x);
 
         for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -58,7 +58,7 @@ function cem(x, n, q) {
 
         if (n % 2 == 1) {
 
-            val /= Math.tanh(x);
+            val /= Math.tanh(scale * x);
 
         }
 
@@ -71,7 +71,7 @@ function cem(x, n, q) {
         x.forEach((x_val) => {
 
             var val = 0;
-            const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * x_val)), x_val);
+            const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x_val)), scale * x_val);
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -97,7 +97,7 @@ function cem(x, n, q) {
 
             if (n % 2 == 1) {
 
-                val /= Math.tanh(x_val);
+                val /= Math.tanh(scale * x_val);
 
             }
 
@@ -111,7 +111,7 @@ function cem(x, n, q) {
 
 }
 
-function sem(x, n, q) {
+function sem(x, n, q, scale = 1) {
 
     const b = me.b_eigen(n, q);
     const maxNumberOfTerms = Math.max(n, 30);
@@ -135,7 +135,7 @@ function sem(x, n, q) {
     if (typeof (x) === "number") {
 
         var val = 0;
-        const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * x)), x);
+        const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x)), scale * x);
 
         for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -161,7 +161,7 @@ function sem(x, n, q) {
 
         if (n % 2 == 0) {
 
-            val /= Math.tanh(x);
+            val /= Math.tanh(scale * x);
 
         }
 
@@ -174,7 +174,7 @@ function sem(x, n, q) {
         x.forEach((x_val) => {
 
             var val = 0;
-            const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * x_val)), x_val);
+            const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x_val)), scale * x_val);
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -200,7 +200,7 @@ function sem(x, n, q) {
 
             if (n % 2 == 0) {
 
-                val /= Math.tanh(x_val);
+                val /= Math.tanh(scale * x_val);
 
             }
 

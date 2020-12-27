@@ -93,7 +93,7 @@
             //     (q) => b_eigen(9, q)];
 
             const scale = 100;
-            const q = 10;
+            const q = 100;
             const m = 20;
 
             // const functions = [
@@ -164,16 +164,26 @@
             //     (x) => besselj(x, 30)
             // ];
 
-            var root = (p) => findNthRoot((x) => besselj(x, m), p, 1, 0, 50, 1e-10)
+            var root = (p) => findNthRoot((x) => cem(x, m, q), p, 1, 0, 50, 1e-10)
+
+            // const functions = [
+            //     (x) => besselj(x, m, root(2)),
+            //     (x) => besselj(x, m, root(3)),
+            //     (x) => besselj(x, m, root(4)),
+            //     (x) => besselj(x, m, root(5)),
+            //     (x) => besselj(x, m, root(6)),
+            //     (x) => besselj(x, m, root(7)),
+            //     (x) => besselj(x, m, root(8))
+            // ];
 
             const functions = [
-                (x) => besselj(x, m, root(2)),
-                (x) => besselj(x, m, root(3)),
-                (x) => besselj(x, m, root(4)),
-                (x) => besselj(x, m, root(5)),
-                (x) => besselj(x, m, root(6)),
-                (x) => besselj(x, m, root(7)),
-                (x) => besselj(x, m, root(8))
+                (x) => cem(x, m, q, root(1)),
+                (x) => cem(x, m, q, root(2)),
+                (x) => cem(x, m, q, root(3)),
+                (x) => cem(x, m, q, root(4)),
+                (x) => cem(x, m, q, root(5)),
+                (x) => cem(x, m, q, root(6)),
+                (x) => cem(x, m, q, root(7))
             ];
 
             var x_vals = []
