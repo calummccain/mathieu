@@ -33,7 +33,7 @@
             import { MapControls, OrbitControls } from "./js/orbit-controls.js";
 
             import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
-            import { ce, se } from "./js/mathieu_funct.js";
+            import { ce, se, cePrime, sePrime } from "./js/mathieu_funct.js";
             import { cem, sem } from "./js/mathieu_modif.js";
             import { besselj } from "./js/bessel.js";
             import { findNthRoot } from "./js/math_funct.js";
@@ -92,16 +92,26 @@
             //     (q) => b_eigen(8, q),
             //     (q) => b_eigen(9, q)];
 
-            const scale = 100;
-            const q = 100;
+            const scale = 5;
+            const q = 1;
             const m = 20;
+
+            const functions = [
+                (x) => ce(x, 0, q),
+                (x) => ce(x, 1, q),
+                (x) => ce(x, 2, q),
+                (x) => ce(x, 3, q),
+                (x) => ce(x, 4, q),
+                (x) => cePrime(x, 0, q),
+                (x) => cePrime(x, 1, q),
+                (x) => cePrime(x, 2, q),
+                (x) => cePrime(x, 3, q),
+                (x) => cePrime(x, 4, q)
+            ];
 
             // const functions = [
             //     (x) => ce(x, 0, q),
-            //     (x) => ce(x, 1, q),
-            //     (x) => ce(x, 2, q),
-            //     (x) => ce(x, 3, q),
-            //     (x) => ce(x, 4, q)
+            //     (x) => cePrime(x, 0, q)
             // ];
 
             // const functions = [
@@ -164,7 +174,7 @@
             //     (x) => besselj(x, 30)
             // ];
 
-            var root = (p) => findNthRoot((x) => cem(x, m, q), p, 1, 0, 50, 1e-10)
+            //var root = (p) => findNthRoot((x) => cem(x, m, q), p, 1, 0, 50, 1e-10)
 
             // const functions = [
             //     (x) => besselj(x, m, root(2)),
@@ -176,24 +186,24 @@
             //     (x) => besselj(x, m, root(8))
             // ];
 
-            const functions = [
-                (x) => cem(x, m, q, root(1)),
-                (x) => cem(x, m, q, root(2)),
-                (x) => cem(x, m, q, root(3)),
-                (x) => cem(x, m, q, root(4)),
-                (x) => cem(x, m, q, root(5)),
-                (x) => cem(x, m, q, root(6)),
-                (x) => cem(x, m, q, root(7))
-            ];
+            // const functions = [
+            //     (x) => cem(x, m, q, root(1)),
+            //     (x) => cem(x, m, q, root(2)),
+            //     (x) => cem(x, m, q, root(3)),
+            //     (x) => cem(x, m, q, root(4)),
+            //     (x) => cem(x, m, q, root(5)),
+            //     (x) => cem(x, m, q, root(6)),
+            //     (x) => cem(x, m, q, root(7))
+            // ];
 
             var x_vals = []
-            // for (var n = -n_max; n <= n_max; n++) {
-            //     x_vals.push(n * Math.PI / n_max);
-            // };
-
-            for (var n = 0; n <= n_max; n++) {
-                x_vals.push(n / scale);
+            for (var n = -n_max; n <= n_max; n++) {
+                x_vals.push(n * Math.PI / n_max);
             };
+
+            // for (var n = 0; n <= n_max; n++) {
+            //     x_vals.push(n / scale);
+            // };
 
             functions.forEach((element) => {
 
