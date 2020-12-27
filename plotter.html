@@ -34,6 +34,8 @@
 
             import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
             import { ce, se } from "./js/mathieu_funct.js";
+            import { cem, sem } from "./js/mathieu_modif.js";
+            import {besselj} from "./js/bessel.js";
 
             var view = document.getElementById("view");
             var WIDTH = view.clientWidth;
@@ -89,9 +91,9 @@
             //     (q) => b_eigen(8, q),
             //     (q) => b_eigen(9, q)];
 
-            const scale = 1;
-            const q = 100;
-            const m = 2;
+            const scale = 2;
+            const q = 10;
+            const m = 10;
 
             // const functions = [
             //     (x) => ce(x, 0, q),
@@ -101,27 +103,67 @@
             //     (x) => ce(x, 4, q)
             // ];
 
+            // const functions = [
+            //     (x) => se(x, m, 0),
+            //     (x) => se(x, m, 1),
+            //     (x) => se(x, m, 2),
+            //     (x) => se(x, m, 4),
+            //     (x) => se(x, m, 8),
+            //     (x) => se(x, m, 16),
+            //     (x) => se(x, m, 32),
+            //     (x) => se(x, m, 64),
+            //     (x) => se(x, m, 128)
+            // ];
+
+            // const functions = [
+            //     (x) => cem(x, m, 0),
+            //     (x) => cem(x, m, 1),
+            //     (x) => cem(x, m, 2),
+            //     (x) => cem(x, m, 4),
+            //     (x) => cem(x, m, 8),
+            //     (x) => cem(x, m, 16),
+            //     (x) => cem(x, m, 32),
+            //     (x) => cem(x, m, 64),
+            //     (x) => cem(x, m, 128),
+
+            // ];
+
             const functions = [
-                (x) => se(x, m, 0),
-                (x) => se(x, m, 1),
-                (x) => se(x, m, 2),
-                (x) => se(x, m, 4),
-                (x) => se(x, m, 8),
-                (x) => se(x, m, 16),
-                (x) => se(x, m, 32),
-                (x) => se(x, m, 64),
-                (x) => se(x, m, 128)
+                (x) => sem(x, m, 0),
+                (x) => sem(x, m, 1),
+                (x) => sem(x, m, 2),
+                (x) => sem(x, m, 4),
+                (x) => sem(x, m, 8),
+                (x) => sem(x, m, 16),
+                (x) => sem(x, m, 32),
+                (x) => sem(x, m, 64),
+                (x) => sem(x, m, 128),
+
             ];
 
+
+            // const functions = [
+            //     (x) => besselj(x, 0),
+            //     (x) => besselj(x, 1),
+            //     (x) => besselj(x, 2),
+            //     (x) => besselj(x, 3),
+            //     (x) => besselj(x, 4),
+            //     (x) => besselj(x, 30)
+            // ];
+
             var x_vals = []
-            for (var n = -n_max; n <= n_max; n++) {
-                x_vals.push(n * Math.PI / n_max);
+            // for (var n = -n_max; n <= n_max; n++) {
+            //     x_vals.push(n * Math.PI / n_max);
+            // };
+
+            for (var n = 0; n <= n_max; n++) {
+                x_vals.push(n / scale);
             };
 
             functions.forEach((element) => {
 
                 var y_vals = element(x_vals);
-
+                console.log(y_vals)
                 var geometry = new THREE.Geometry();
 
                 for (var n = 0; n < x_vals.length; n++) {

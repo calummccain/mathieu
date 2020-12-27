@@ -1,6 +1,6 @@
 // Using backwards recursion this function calculates the fourier coefficients of the mathieu functions
 // a_2n-2 = 0 and a_2n-4 = 1
-// Normalised so that a_0 = 1 <===== change to standard normalisations
+// Normalised
 // a : mathieu parameter/eigenvalue
 // q : mathieu parameter
 // n : number of fourier coefficients to calculate
@@ -49,14 +49,14 @@ function a_even_coeff(a, q, numberOfTerms) {
 
             coeff = [-coeff[1] + (a - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
             norm += (coeff[0] ** 2);
-            sum += coeff[0];
+            sign += coeff[0];
             i -= 2;
 
         } else if (i == 0) {
 
             coeff = [(-coeff[1] + (a - 4) * coeff[0] / q) / 2].concat(coeff);
             norm += 2 * (coeff[0] ** 2);
-            sum += coeff[0];
+            sign += coeff[0];
             i -= 2;
 
         }
