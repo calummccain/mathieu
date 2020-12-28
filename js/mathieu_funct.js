@@ -52,7 +52,7 @@ function ce(x, n, q) {
                 if (Math.abs(coeff[i]) > tol) {
     
                     val += coeff[i] * Math.cos((2 * i + (n % 2)) * x_val);
-    
+
                 }
     
             }

@@ -69,8 +69,6 @@
             scene.add(camera);
             scene.add(new THREE.HemisphereLight(0xcccccc, 0x222222));
 
-            const n_max = 100;
-
             // const functions = [
             //     (q) => a_eigen(0, q),
             //     (q) => a_eigen(1, q),
@@ -92,22 +90,18 @@
             //     (q) => b_eigen(8, q),
             //     (q) => b_eigen(9, q)];
 
-            const scale = 5;
-            const q = 1;
-            const m = 20;
-
-            const functions = [
-                (x) => ce(x, 0, q),
-                (x) => ce(x, 1, q),
-                (x) => ce(x, 2, q),
-                (x) => ce(x, 3, q),
-                (x) => ce(x, 4, q),
-                (x) => cePrime(x, 0, q),
-                (x) => cePrime(x, 1, q),
-                (x) => cePrime(x, 2, q),
-                (x) => cePrime(x, 3, q),
-                (x) => cePrime(x, 4, q)
-            ];
+            // const functions = [
+            //     (x) => se(x, 0, q),
+            //     (x) => se(x, 1, q),
+            //     (x) => se(x, 2, q),
+            //     (x) => se(x, 3, q),
+            //     (x) => se(x, 4, q),
+            //     (x) => sePrime(x, 0, q),
+            //     (x) => sePrime(x, 1, q),
+            //     (x) => sePrime(x, 2, q),
+            //     (x) => sePrime(x, 3, q),
+            //     (x) => sePrime(x, 4, q)
+            // ];
 
             // const functions = [
             //     (x) => ce(x, 0, q),
@@ -132,11 +126,7 @@
             //     (x) => cem(x, m, 2),
             //     (x) => cem(x, m, 4),
             //     (x) => cem(x, m, 8),
-            //     (x) => cem(x, m, 16),
-            //     (x) => cem(x, m, 32),
-            //     (x) => cem(x, m, 64),
-            //     (x) => cem(x, m, 128),
-
+            //     (x) => cem(x, m, 16)
             // ];
 
             // const functions = [
@@ -171,10 +161,25 @@
             //     (x) => besselj(x, 2),
             //     (x) => besselj(x, 3),
             //     (x) => besselj(x, 4),
-            //     (x) => besselj(x, 30)
+            //     (x) => besselj(x, 5),
+            //     (x) => besselj(x, 6),
+            //     (x) => besselj(x, 7),
+            //     (x) => besselj(x, 8),
+            //     (x) => besselj(x, 9),
+            //     (x) => besselj(x, 10),
+            //     (x) => besselj(x, 11),
+            //     (x) => besselj(x, 12),
+            //     (x) => besselj(x, 13),
+            //     (x) => besselj(x, 14),
+            //     (x) => besselj(x, 15)
             // ];
 
-            //var root = (p) => findNthRoot((x) => cem(x, m, q), p, 1, 0, 50, 1e-10)
+            const scale = 100;
+            const q = 1;
+            const m = 0;
+            const n_max = 300;
+
+            var root = (p) => findNthRoot((x) => cem(x, m, q), p, 0.1, 0, 50, 1e-10)
 
             // const functions = [
             //     (x) => besselj(x, m, root(2)),
@@ -186,29 +191,31 @@
             //     (x) => besselj(x, m, root(8))
             // ];
 
-            // const functions = [
-            //     (x) => cem(x, m, q, root(1)),
-            //     (x) => cem(x, m, q, root(2)),
-            //     (x) => cem(x, m, q, root(3)),
-            //     (x) => cem(x, m, q, root(4)),
-            //     (x) => cem(x, m, q, root(5)),
-            //     (x) => cem(x, m, q, root(6)),
-            //     (x) => cem(x, m, q, root(7))
-            // ];
+            console.log(root(1), root(2), root(3))
+
+            const functions = [
+                (x) => cem(x, m, q),
+                (x) => cem(x, m, q, root(1)),
+                (x) => cem(x, m, q, root(2)),
+                (x) => cem(x, m, q, root(3)),
+                (x) => cem(x, m, q, root(4)),
+                (x) => cem(x, m, q, root(5)),
+                (x) => cem(x, m, q, root(6)),
+                (x) => cem(x, m, q, root(7))
+            ];
 
             var x_vals = []
-            for (var n = -n_max; n <= n_max; n++) {
-                x_vals.push(n * Math.PI / n_max);
-            };
-
-            // for (var n = 0; n <= n_max; n++) {
-            //     x_vals.push(n / scale);
+            // for (var n = -n_max; n <= n_max; n++) {
+            //     x_vals.push(n * Math.PI / n_max);
             // };
+
+            for (var n = 0; n <= n_max; n++) {
+                x_vals.push(n / scale);
+            };
 
             functions.forEach((element) => {
 
                 var y_vals = element(x_vals);
-                //console.log(y_vals)
                 var geometry = new THREE.Geometry();
 
                 for (var n = 0; n < x_vals.length; n++) {
@@ -223,8 +230,8 @@
             });
 
 
-            //gridlines(0, 50, 10, "x");
-            //gridlines(-50, 50, 20, "y");
+            gridlines(0, 3, 30, "x");
+            gridlines(0, 1, 20, "y");
 
             // setup the renderer
             var renderer = new THREE.WebGLRenderer({ antialias: true });

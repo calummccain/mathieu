@@ -33,7 +33,7 @@ function a_even_coeff(a, q, numberOfTerms) {
         }
 
 
-        for (var i = n; i < numberOfTerms; i++) {
+        for (var i = n; i < numberOfTerms - 1; i++) {
 
             unitCoeff.push(0);
 
@@ -95,7 +95,7 @@ function a_odd_coeff(a, q, numberOfTerms) {
 
         unitCoeff.push(1);
 
-        for (var i = n; i < numberOfTerms; i++) {
+        for (var i = n; i < numberOfTerms - 1; i++) {
 
             unitCoeff.push(0);
 
@@ -146,7 +146,7 @@ function b_even_coeff(b, q, numberOfTerms) {
 
         unitCoeff.push(1);
 
-        for (var i = n; i < numberOfTerms; i++) {
+        for (var i = n; i < numberOfTerms - 1; i++) {
 
             unitCoeff.push(0);
 
@@ -197,7 +197,7 @@ function b_odd_coeff(b, q, numberOfTerms) {
 
         unitCoeff.push(1);
 
-        for (var i = n; i < numberOfTerms; i++) {
+        for (var i = n; i < numberOfTerms - 1; i++) {
 
             unitCoeff.push(0);
 

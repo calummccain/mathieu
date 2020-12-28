@@ -5,14 +5,16 @@ import * as be from "./bessel.js";
 
 // uses sinh formulas!!!
 // https://dlmf.nist.gov/28.23
-// get multilicative factor!!!
+// get multiplicative factor!!!
 // calculate derivatives
 
 function cem(x, n, q, scale = 1) {
 
     const a = me.a_eigen(n, q);
-    const maxNumberOfTerms = Math.max(n, 30);
+    const maxNumberOfTerms = Math.max(n, 25);
+    const accuracy = 50;
     const tol = 1e-10;
+    const h = Math.sqrt(q);
     var coeff = [];
 
     if (n % 2 == 0) {
@@ -32,7 +34,8 @@ function cem(x, n, q, scale = 1) {
     if (typeof (x) === "number") {
 
         var val = 0;
-        const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x)), scale * x);
+        var x = 2 * h * Math.sinh(scale * x);
+        const besselCoefficients = be.besselj_list(accuracy, x);
 
         for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -58,7 +61,7 @@ function cem(x, n, q, scale = 1) {
 
         if (n % 2 == 1) {
 
-            val /= Math.tanh(scale * x);
+            val /= Math.tanh(x);
 
         }
 
@@ -71,7 +74,8 @@ function cem(x, n, q, scale = 1) {
         x.forEach((x_val) => {
 
             var val = 0;
-            const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x_val)), scale * x_val);
+            var x_val = 2 * h * Math.sinh(scale * x_val);
+            const besselCoefficients = be.besselj_list(accuracy, x_val);
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -97,7 +101,7 @@ function cem(x, n, q, scale = 1) {
 
             if (n % 2 == 1) {
 
-                val /= Math.tanh(scale * x_val);
+                val /= Math.tanh(x_val);
 
             }
 
@@ -135,6 +139,7 @@ function sem(x, n, q, scale = 1) {
     if (typeof (x) === "number") {
 
         var val = 0;
+        x = 2 * q * Math.sinh(x);
         const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x)), scale * x);
 
         for (var i = 0; i < maxNumberOfTerms; i++) {
@@ -174,6 +179,7 @@ function sem(x, n, q, scale = 1) {
         x.forEach((x_val) => {
 
             var val = 0;
+            x_val = 2 * q * Math.sinh(x_val);
             const besselCoefficients = be.besselj_list(Math.max(2 * maxNumberOfTerms, Math.ceil(4 * scale * x_val)), scale * x_val);
 
             for (var i = 0; i < maxNumberOfTerms; i++) {

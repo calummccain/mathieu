@@ -12,10 +12,13 @@
 
         <script type="module">
 
-            import * as THREE from "./three.module.js";
-            import * as MA from "./mathieu.js";
-            import * as MM from "./mathieu_modified.js";
-            import { OrbitControls } from "./orbit-controls.js";
+            import * as THREE from "./js/three.module.js";
+            import { a_eigen, b_eigen } from "./js/mathieu_eigen.js";
+            import { ce, se, cePrime, sePrime } from "./js/mathieu_funct.js";
+            import { cem, sem } from "./js/mathieu_modif.js";
+            import { besselj } from "./js/bessel.js";
+            import { findNthRoot } from "./js/math_funct.js";
+            import { OrbitControls } from "./js/orbit-controls.js";
 
             var WIDTH = window.innerWidth;
             var HEIGHT = window.innerHeight;
@@ -23,8 +26,8 @@
             const width = 80;
             const height = 160;
 
-            const div_mu = 120;
-            const div_nu = 320;
+            const div_mu = 200;
+            const div_nu = 400;
 
             var scene = new THREE.Scene();
             scene.background = new THREE.Color(0x999999);
@@ -57,22 +60,28 @@
             let k = 0;
 
             const q = 1;
-            const n = 4;
+            const n = 16;
+            const m = 3;
 
             var angular = [];
             for (var j = 0; j < div_nu; j++) {
-                var nu = (2 * j / div_nu - 1) * Math.PI;
-                angular.push(MA.ce(nu, n, q));
+                angular.push(2 * j / div_nu * Math.PI);
             }
 
-            console.log(angular)
+            //console.log(angular)
 
             var radial = [];
             for (var i = 0; i <= div_mu; i++) {
-                var mu = i / div_mu;
-                radial.push(MM.cem(mu * 1405 / div_mu, n, q));
+                radial.push(i / div_mu);
             }
-            console.log(radial);
+            //console.log(radial);
+
+            //console.log(findNthRoot((x) => cem(x, n, q), m, 0.1, 0, 10, 1e-10))
+
+            //const ang = ce(angular, n, q);
+
+            //console.log(ang);
+            const rad = cem(radial, n, q, findNthRoot((x) => cem(x, n, q), m, 0.1, 0, 10, 1e-10));
 
             for (var i = 0; i <= div_mu; i++) {
 
@@ -80,11 +89,11 @@
 
                 for (var j = 0; j < div_nu; j++) {
 
-                    var nu = 2 * Math.PI * j / div_nu - Math.PI;
+                    var nu = 2 * Math.PI * j / div_nu;
 
                     var x = Math.cosh(mu) * Math.cos(nu);
                     var z = Math.sinh(mu) * Math.sin(nu);
-                    var y = angular[j] * radial[i];
+                    var y = 0;
 
                     positions[3 * k] = x;
                     positions[3 * k + 1] = y;
