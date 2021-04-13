@@ -43,10 +43,11 @@ function ce(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -109,10 +110,11 @@ function se(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 1; i <= maxNumberOfTerms; i++) {
 
@@ -175,10 +177,11 @@ function cePrime(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
@@ -241,10 +244,11 @@ function sePrime(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 1; i <= maxNumberOfTerms; i++) {
 
