@@ -118,14 +118,14 @@ function approximation(n, q, ab) {
 // q: mathieu parameter
 
 function a_even_tridiag_det(x, q, size) {
-    
-    const q2 = q*q;
 
-    var j = 3, a = -x, b = (4 - x) * a - 2 * q2, c = 0;
+    const q2 = q * q;
 
-    while (j <= size) {
+    var j = 2, a = -x, b = (4 - x) * a - 2 * q2, c = 0;
 
-        c = ((2 * j - 2) ** 2 - x) * b - q2 * a;
+    while (j <= size - 1) {
+
+        c = (4 * j * j - x) * b - q2 * a;
         a = b;
         b = c;
         j += 1;
@@ -137,13 +137,13 @@ function a_even_tridiag_det(x, q, size) {
 
 function a_odd_tridiag_det(x, q, size) {
 
-    const q2 = q*q;
+    const q2 = q * q;
 
     var j = 2, a = 1, b = 1 + q - x, c = 0;
 
     while (j <= size) {
 
-        c = ((2 * j - 1) ** 2 - x) * b - q2 * a;
+        c = ((2 * j - 1) * (2 * j - 1) - x) * b - q2 * a;
         a = b;
         b = c;
         j += 1;
@@ -156,13 +156,13 @@ function a_odd_tridiag_det(x, q, size) {
 
 function b_even_tridiag_det(x, q, size) {
 
-    const q2 = q*q;
+    const q2 = q * q;
 
     var j = 2, a = 1, b = 4 - x, c = 0;
 
     while (j <= size) {
 
-        c = c = ((2 * j) ** 2 - x) * b - q2 * a;
+        c = c = (4 * j * j - x) * b - q2 * a;
         a = b;
         b = c;
         j += 1;
@@ -175,13 +175,13 @@ function b_even_tridiag_det(x, q, size) {
 
 function b_odd_tridiag_det(x, q, size) {
 
-    const q2 = q*q;
+    const q2 = q * q;
 
     var j = 2, a = 1, b = 1 - q - x, c = 0;
 
     while (j <= size) {
 
-        c = ((2 * j - 1) ** 2 - x) * b - q2 * a;
+        c = ((2 * j - 1) * (2 * j - 1) - x) * b - q2 * a;
         a = b;
         b = c;
         j += 1;
@@ -205,7 +205,7 @@ function a_eigen(n, q) {
 
     if (q == 0) {
 
-        return n ** 2;
+        return n * n;
 
     }
 
@@ -297,7 +297,7 @@ function b_eigen(n, q) {
 
     if (q == 0) {
 
-        return n ** 2;
+        return n * n;
 
     }
 
