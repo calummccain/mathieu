@@ -14,17 +14,17 @@ function approximation(n, q, ab) {
 
     if ((q > (n * n) / 2) || (n == 0 && q > 1)) {
 
-        var h = Math.sqrt(q);
-        var s = 2 * n + 1;
+        const h = Math.sqrt(q), h2 = q, h3 = h * h2, h4 = q * q, h5 = h * h4;
+        const s = 2 * n + 1, s2 = s * s, s3 = s * s2, s4 = s * s3, s5 = s * s4, s6 = s * s5, s7 = s * s6;
 
-        approx = -2 * (h ** 2);
+        approx = -2 * h2;
         approx += 2 * s * h;
-        approx -= ((s ** 2) + 1) / 8;
-        approx -= ((s ** 3) + 3 * s) / (128 * h);
-        approx -= (5 * (s ** 4) + 34 * (s ** 2) + 9) / (4096 * (h ** 2));
-        approx -= (33 * (s ** 5) + 410 * (s ** 3) + 405 * s) / (131071 * (h ** 3));
-        approx -= (63 * (s ** 6) + 1269 * (s ** 4) + 2943 * (s ** 2) + 486) / (1048576 * (h ** 4));
-        approx -= (527 * (s ** 7) + 15617 * (s ** 5) + 69001 * (s ** 3) + 41607) / (33554432 * (h ** 5));
+        approx -= (s2 + 1) / 8;
+        approx -= (s3 + 3 * s) / (128 * h);
+        approx -= (5 * s4 + 34 * s2 + 9) / (4096 * h2);
+        approx -= (33 * s5 + 410 * s3 + 405 * s) / (131071 * h3);
+        approx -= (63 * s6 + 1269 * s4 + 2943 * s2 + 486) / (1048576 * h4);
+        approx -= (527 * s7 + 15617 * s5 + 69001 * s3 + 41607) / (33554432 * h5);
 
     } else {
 
