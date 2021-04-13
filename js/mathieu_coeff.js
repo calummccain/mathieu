@@ -45,17 +45,19 @@ function a_even_coeff(a, q, numberOfTerms) {
 
     while (i >= 0) {
 
+        const q_1 = 1 / q;
+
         if (i > 0) {
 
-            coeff = [-coeff[1] + (a - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-            norm += (coeff[0] ** 2);
+            coeff = [-coeff[1] + (a - (i + 2) * (i + 2)) * coeff[0] * q_1].concat(coeff);
+            norm += coeff[0] * coeff[0];
             sign += coeff[0];
             i -= 2;
 
         } else if (i == 0) {
 
-            coeff = [(-coeff[1] + (a - 4) * coeff[0] / q) / 2].concat(coeff);
-            norm += 2 * (coeff[0] ** 2);
+            coeff = [(-coeff[1] + (a - 4) * coeff[0] * q_1) / 2].concat(coeff);
+            norm += 2 * (coeff[0] * coeff[0]);
             sign += coeff[0];
             i -= 2;
 
@@ -107,8 +109,10 @@ function a_odd_coeff(a, q, numberOfTerms) {
 
     while (i >= 0) {
 
-        coeff = [-coeff[1] + (a - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-        norm += coeff[0] ** 2;
+        const q_1 = 1 / q;
+
+        coeff = [-coeff[1] + (a - (i + 2) * (i + 2)) * coeff[0] * q_1].concat(coeff);
+        norm += coeff[0] * coeff[0];
         sign += coeff[0];
         i -= 2;
 
@@ -158,8 +162,10 @@ function b_even_coeff(b, q, numberOfTerms) {
 
     while (i >= 0) {
 
-        coeff = [-coeff[1] + (b - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-        norm += coeff[0] ** 2;
+        const q_1 = 1 / q;
+
+        coeff = [-coeff[1] + (b - (i + 2) * (i + 2)) * coeff[0] * q_1].concat(coeff);
+        norm += coeff[0] * coeff[0];
         sign += i * coeff[0];
         i -= 2;
 
@@ -209,8 +215,10 @@ function b_odd_coeff(b, q, numberOfTerms) {
 
     while (i >= 0) {
 
-        coeff = [-coeff[1] + (b - (i + 2) ** 2) * coeff[0] / q].concat(coeff);
-        norm += coeff[0] ** 2;
+        const q_1 = 1 / q;
+
+        coeff = [-coeff[1] + (b - (i + 2) * (i + 2)) * coeff[0] * q_1].concat(coeff);
+        norm += coeff[0] * coeff[0];
         sign += i * coeff[0];
         i -= 2;
 
