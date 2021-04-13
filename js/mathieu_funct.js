@@ -10,11 +10,11 @@ function ce(x, n, q) {
     var coeff = [];
     const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.a_even_coeff(a, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.a_odd_coeff(a, q, maxNumberOfTerms);
 
@@ -77,11 +77,11 @@ function se(x, n, q) {
     var coeff = [];
     const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.b_even_coeff(b, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.b_odd_coeff(b, q, maxNumberOfTerms);
 
@@ -144,11 +144,11 @@ function cePrime(x, n, q) {
     var coeff = [];
     const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.a_even_coeff(a, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.a_odd_coeff(a, q, maxNumberOfTerms);
 
@@ -211,11 +211,11 @@ function sePrime(x, n, q) {
     var coeff = [];
     const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.b_even_coeff(b, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.b_odd_coeff(b, q, maxNumberOfTerms);
 
