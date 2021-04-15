@@ -8,12 +8,13 @@ function ce(x, n, q) {
     const maxNumberOfTerms = Math.max(n, 30);
     const tol = 1e-10;
     var coeff = [];
+    const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.a_even_coeff(a, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.a_odd_coeff(a, q, maxNumberOfTerms);
 
@@ -31,7 +32,7 @@ function ce(x, n, q) {
 
             if (Math.abs(coeff[i]) > tol) {
 
-                val += coeff[i] * Math.cos((2 * i + (n % 2)) * x);
+                val += coeff[i] * Math.cos((2 * i + oe) * x);
 
             }
 
@@ -42,19 +43,20 @@ function ce(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
                 if (Math.abs(coeff[i]) > tol) {
-    
-                    val += coeff[i] * Math.cos((2 * i + (n % 2)) * x_val);
+
+                    val += coeff[i] * Math.cos((2 * i + oe) * x_val);
 
                 }
-    
+
             }
 
             vals.push(val);
@@ -73,12 +75,13 @@ function se(x, n, q) {
     const maxNumberOfTerms = Math.max(n, 30);
     const tol = 1e-10;
     var coeff = [];
+    const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.b_even_coeff(b, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.b_odd_coeff(b, q, maxNumberOfTerms);
 
@@ -96,7 +99,7 @@ function se(x, n, q) {
 
             if (Math.abs(coeff[i - 1]) > tol) {
 
-                val += coeff[i - 1] * Math.sin((2 * i - (n % 2)) * x);
+                val += coeff[i - 1] * Math.sin((2 * i - oe) * x);
 
             }
 
@@ -107,19 +110,20 @@ function se(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 1; i <= maxNumberOfTerms; i++) {
 
                 if (Math.abs(coeff[i - 1]) > tol) {
-    
-                    val += coeff[i - 1] * Math.sin((2 * i - (n % 2)) * x_val);
-    
+
+                    val += coeff[i - 1] * Math.sin((2 * i - oe) * x_val);
+
                 }
-    
+
             }
 
             vals.push(val);
@@ -138,12 +142,13 @@ function cePrime(x, n, q) {
     const maxNumberOfTerms = Math.max(n, 30);
     const tol = 1e-10;
     var coeff = [];
+    const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.a_even_coeff(a, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.a_odd_coeff(a, q, maxNumberOfTerms);
 
@@ -161,7 +166,7 @@ function cePrime(x, n, q) {
 
             if (Math.abs(coeff[i]) > tol) {
 
-                val -= (2 * i + (n % 2)) * coeff[i] * Math.sin((2 * i + (n % 2)) * x);
+                val -= (2 * i + oe) * coeff[i] * Math.sin((2 * i + oe) * x);
 
             }
 
@@ -172,19 +177,20 @@ function cePrime(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 0; i < maxNumberOfTerms; i++) {
 
                 if (Math.abs(coeff[i]) > tol) {
-    
-                    val -= (2 * i + (n % 2)) * coeff[i] * Math.sin((2 * i + (n % 2)) * x_val);
-    
+
+                    val -= (2 * i + oe) * coeff[i] * Math.sin((2 * i + oe) * x_val);
+
                 }
-    
+
             }
 
             vals.push(val);
@@ -203,12 +209,13 @@ function sePrime(x, n, q) {
     const maxNumberOfTerms = Math.max(n, 30);
     const tol = 1e-10;
     var coeff = [];
+    const oe = n % 2;
 
-    if (n % 2 == 0) {
+    if (oe == 0) {
 
         coeff = mc.b_even_coeff(b, q, maxNumberOfTerms);
 
-    } else if (n % 2 == 1) {
+    } else if (oe == 1) {
 
         coeff = mc.b_odd_coeff(b, q, maxNumberOfTerms);
 
@@ -226,7 +233,7 @@ function sePrime(x, n, q) {
 
             if (Math.abs(coeff[i - 1]) > tol) {
 
-                val += (2 * i - (n % 2)) * coeff[i - 1] * Math.cos((2 * i - (n % 2)) * x);
+                val += (2 * i - oe) * coeff[i - 1] * Math.cos((2 * i - oe) * x);
 
             }
 
@@ -237,19 +244,20 @@ function sePrime(x, n, q) {
     } else {
 
         var vals = [];
+        var val;
 
         x.forEach((x_val) => {
 
-            var val = 0;
+            val = 0;
 
             for (var i = 1; i <= maxNumberOfTerms; i++) {
 
                 if (Math.abs(coeff[i - 1]) > tol) {
-    
-                    val += (2 * i - (n % 2)) * coeff[i - 1] * Math.cos((2 * i - (n % 2)) * x_val);
-    
+
+                    val += (2 * i - oe) * coeff[i - 1] * Math.cos((2 * i - oe) * x_val);
+
                 }
-    
+
             }
 
             vals.push(val);
