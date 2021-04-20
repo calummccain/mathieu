@@ -12,7 +12,7 @@ function approximation(n, q, ab) {
 
     var approx = 0;
 
-    if ((q > (n * n) / 2) || (n == 0 && q > 1)) {
+    if ((2 * q > (n * n)) || (n == 0 && q > 1)) {
 
         const h = Math.sqrt(q), h2 = q, h3 = h * h2, h4 = q * q, h5 = h * h4;
         const s = 2 * n + 1, s2 = s * s, s3 = s * s2, s4 = s * s3, s5 = s * s4, s6 = s * s5, s7 = s * s6;

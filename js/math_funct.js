@@ -13,11 +13,17 @@ function interval_bisection(fun, a, b, e) {
     var fb = fun(b);
 
     if (fa == 0) {
+
         return a;
+
     } else if (fb == 0) {
+
         return b;
+
     } else if (fa * fb > 0) {
+
         return "error";
+
     }
 
     var dx = Math.abs(b - a);
@@ -28,15 +34,20 @@ function interval_bisection(fun, a, b, e) {
         var fc = fun(c);
 
         if (fc == 0) {
+
             return c;
+
         } else if (fa * fc < 0) {
             a = a;
             b = c;
             fb = fun(b);
+
         } else {
+
             a = c;
             b = b;
             fa = fun(a);
+
         }
 
         dx = Math.abs(b - a);
