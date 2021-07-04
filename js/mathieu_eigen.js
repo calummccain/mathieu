@@ -1,12 +1,25 @@
 import { interval_bisection } from "./math_funct.js";
 
-// Calculates the eigenvalues for the pi/2pi periodic solutions to Mathieu's Differential equation
-// Uses https://dlmf.nist.gov/28.6#i to estimate the eigenvalue
-// if q > i^2 or if i = 0 and q > 1 use https://dlmf.nist.gov/28.8.E1 (the asymptotic expansion)
+// ========================================================
+// Calculates the eigenvalues for the pi/2pi periodic 
+// solutions to Mathieu's Differential equation
+//
+// Uses https://dlmf.nist.gov/28.6#i to estimate the 
+// eigenvalue
+//
+// If q > i^2 or if i = 0 and q > 1 use 
+// https://dlmf.nist.gov/28.8.E1 (the asymptotic expansion)
 // otherwise use https://dlmf.nist.gov/28.6.i
-// n  = eigenvalue order
-// q  = q value
-// ab = "a"/"b"
+//
+// Inputs: n  = eigenvalue order
+//         q  = q value
+//         ab = "a"/"b"
+// Output: a_n(q)/b_n(q)
+//
+// Change history:
+//     ??/??/?? Initial commit
+//     04/07/21 Tidied up
+//=========================================================
 
 function approximation(n, q, ab) {
 
@@ -106,16 +119,30 @@ function approximation(n, q, ab) {
     return approx;
 }
 
-// These functions return the determinant of A(q) - xI for A(q) the tridiagonal mathieu matrix (truncated)
-// As the matrix is tridiagonal a quick method can be used (linear!)
+// ========================================================
+// These functions return the determinant of A(q) - xI for 
+// A(q) the tridiagonal mathieu matrix (truncated)
+//
+// As the matrix is tridiagonal a quick method can be used
 //     |a_1 b_1             | 
 //     |c_1 a_2 b_2         |          f_-1 = 0  f_0=1
-// det |    c_2             | = f_n    f_k = a_k f_k-1 - c_k-1 b_k-1 f_k-2
-//     |              b_n-1 |
+// det |    c_2             | = f_n    f_k = a_k f_k-1 - 
+//     |              b_n-1 |             c_k-1 b_k-1 f_k-2
 //     |        c_n-1 a_n   |
-// We can also simplify things as most of the off-diagonal elements are q
-// They grow quick and are potentially numerically unstable but change in sign is all that matters
-// q: mathieu parameter
+//
+// We can also simplify things as most of the off-diagonal 
+// elements are q
+// 
+// They grow quick and are potentially numerically unstable 
+// but a change in sign is all that matters
+//
+// Inputs: q: mathieu parameter
+// Output: a_2n(q)/a_2n+1(q)/b_2n(q)/b_2n+1(q)
+//
+// Change history:
+//     ??/??/?? Initial commit
+//     04/07/21 Tidied up
+//=========================================================
 
 function a_even_tridiag_det(x, q, size) {
 
@@ -192,8 +219,21 @@ function b_odd_tridiag_det(x, q, size) {
 
 }
 
+// ========================================================
+// Returns a_n(q)
+//
+// Inputs: n
+//         q
+// Output: a_n(q)
+//
+// Change history:
+//     ??/??/?? Initial commit
+//     04/07/21 Tidied up
+//=========================================================
+
 function a_eigen(n, q) {
 
+    // n must be an integer
     if (!Number.isInteger(n)) {
 
         return "n must be an integer";
@@ -203,12 +243,15 @@ function a_eigen(n, q) {
     const tol = 10e-10;
     const size = n + 20;
 
+    // if q = 0 then we've degenerated to a circle and eigenvalues are n^2
     if (q == 0) {
 
         return n * n;
 
     }
 
+    // use approximation to get an approximation (duh) for the eigenvlue
+    // we then test the approximation to see if it is good enough
     var approx = approximation(n, q, "a");
 
     if (n % 2 == 0) {
@@ -219,9 +262,13 @@ function a_eigen(n, q) {
 
         }
 
+        // use the determinant method to calculate the determinant on 
+        // either side of the approximation
         var lhs = a_even_tridiag_det(approx - tol, q, size);
-        var rhs = a_even_tridiag_det(approx + tol, q, size)
+        var rhs = a_even_tridiag_det(approx + tol, q, size);
 
+        // If the product of the two sides is negative (change in sign method) then
+        // use the approximation
         if (lhs * rhs < 0 || Number.isNaN(lhs) || Number.isNaN(rhs)) {
 
             return approx;
@@ -231,10 +278,10 @@ function a_eigen(n, q) {
             var done = false;
             var j = 1;
 
+            // start widening the range (focus on the lowerside as the eigenvalues -> -inf as |q| -> inf)
             while (!done) {
 
-                var pow = 2 ** j;
-
+                // If we pass the change in sign method then use the interval bisection method to find root
                 if (a_even_tridiag_det(approx - j, q, size) * a_even_tridiag_det(approx + j / 2, q, size) < 0) {
 
                     return interval_bisection((x) => a_even_tridiag_det(x, q, size), approx - j, approx + j / 2, tol);
@@ -266,8 +313,6 @@ function a_eigen(n, q) {
 
             while (!done) {
 
-                var pow = 2 ** j;
-
                 if (a_odd_tridiag_det(approx - j, q, size) * a_odd_tridiag_det(approx + j / 2, q, size) < 0) {
 
                     return interval_bisection((x) => a_odd_tridiag_det(x, q, size), approx - j, approx + j / 2, tol);
@@ -283,6 +328,18 @@ function a_eigen(n, q) {
     }
 
 }
+
+// ========================================================
+// Returns b_n(q)
+//
+// Inputs: n
+//         q
+// Output: b_n(q)
+//
+// Change history:
+//     ??/??/?? Initial commit
+//     04/07/21 Tidied up
+//=========================================================
 
 function b_eigen(n, q) {
 
@@ -324,8 +381,6 @@ function b_eigen(n, q) {
             var j = 1;
 
             while (!done) {
-
-                var pow = 2 ** j;
 
                 if (b_even_tridiag_det(approx - j, q, size) * b_even_tridiag_det(approx + j / 2, q, size) < 0) {
 
