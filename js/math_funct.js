@@ -1,11 +1,17 @@
-
-// Uses interval bisection to find a root of the equation in the given interval
-// Converts numbers to floats or else python goes a bit funny
-// function : function to have its root found
-//         a: start point of iteration
-//         b: end point of iteration
-//         e: tolerance of algorithm - once abs(b - a) < e, terminates
-// returns either the root or 'error' if the values of the function at the end points have the same signs
+// ========================================================
+// Uses interval bisection to find a root of the equation 
+// in the given interval
+// inputs: fun = function to have its root found
+//         a   = start point of iteration
+//         b   = end point of iteration
+//         e   = tolerance of algorithm 
+//               once abs(b - a) < e, terminates
+// Output: either the root or 'error' if the values of the 
+//         function at the end points have the same signs
+// Change history:
+//     ??/??/?? Initial commit
+//     04/07/21 Tidied up
+//=========================================================
 
 function interval_bisection(fun, a, b, e) {
 
@@ -38,6 +44,7 @@ function interval_bisection(fun, a, b, e) {
             return c;
 
         } else if (fa * fc < 0) {
+
             a = a;
             b = c;
             fb = fun(b);
@@ -54,23 +61,39 @@ function interval_bisection(fun, a, b, e) {
     }
 
     return (a + b) / 2;
+
 }
 
-function findNthRoot(fun, root, spacing, start, finish, tolerance) {
+// ========================================================
+// Uses interval bisection to find the forst n roots
+// in the given interval
+// inputs: fun   = function to have its roots found
+//         n     = which root to find
+//         start = start point of range
+//         end   = end point of range
+//         tol   = tolerance of algorithm 
+// Output: either the root or 'error' if the values of the 
+//         function at the end points have the same signs
+// Change history:
+//     ??/??/?? Initial commit
+//     04/07/21 Tidied up
+//=========================================================
 
-    var n = 0;
+function findNthRoot(fun, n, spacing, start, finish, tol) {
+
+    var k = 0;
     var a = start, b = Math.min(start + spacing, finish);
 
-    while (n < root) {
+    while (k < n) {
 
-        var possibleRoot = interval_bisection(fun, a, b, tolerance);
+        var possibleRoot = interval_bisection(fun, a, b, tol);
 
         if (possibleRoot !== "error") {
 
             a = b;
             b = Math.min(a + spacing, finish);
 
-            n++;
+            k++;
 
         } else {
 
